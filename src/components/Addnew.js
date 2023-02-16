@@ -12,7 +12,6 @@ const windowHeight = Dimensions.get('window').height;
 
 
 
-
 function Addneww() {
 
     const [sotien, setmoney] = useState('')
