@@ -66,7 +66,7 @@ function CustomDrawer(props) {
         <View style={styles.profileCircle}>
           <Text style={styles.profileText}>F</Text>
         </View>
-        <Text style={styles.text}>Faith Gaiciumia</Text>
+        <Text style={styles.text}>...</Text>
       </View>
       {/* end of header */}
       <DrawerItemList {...props} />

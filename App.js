@@ -2,10 +2,9 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Home from "./screens/Home/Home";
-
-import AddEarning from './screens/Create/AddEarning';
-import AddSpending from './screens/Create/AddSpending';
+import Home from "./src/components/screens/Home/HomePage";
+import AddEarning from './src/components/screens/Create/AddEarning';
+import AddSpending from './src/components/screens/Create/AddSpending';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
