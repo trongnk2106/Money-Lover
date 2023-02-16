@@ -9,20 +9,10 @@ import AddSpending from './screens/Create/AddSpending';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-  
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="AddEarning">
-        <Stack.Screen
-          name="onboarding"
-          component={Onboarding}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="signup"
-          component={SignUp}
-          options={{ headerShown: false }}
-        />
         <Stack.Screen
           name="Home"
           component={Home}
