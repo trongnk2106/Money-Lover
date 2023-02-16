@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
-import DisplayRow from "../../components/DisplayRow";
+import DisplayRow from "../../small_components/DisplayRow";
 import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
 import { BarChart } from "react-native-chart-kit";
 import React from "react";
