@@ -15,4 +15,4 @@ import TestBD  from './src/components/data'
 // import App from './src/route/NavigationTabBar'
 import appJson from './app.json';
 
-AppRegistry.registerComponent(appJson.name, () => TestBD);
+AppRegistry.registerComponent(appJson.name, () =>Addneww);
