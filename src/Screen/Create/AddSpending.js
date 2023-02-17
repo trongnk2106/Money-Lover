@@ -8,7 +8,9 @@ import {
     Keyboard,
     Modal,
   } from "react-native";
-  import  { AntDesign }  from "react-native-vector-icons";
+  // import  { AntDesign }  from "react-native-vector-icons";
+  // import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+  import AntDesign from 'react-native-vector-icons/AntDesign'
   import { TextInput } from "@react-native-material/core";
   import React from "react";
   import SelectRow from "../../components/SelectRow";

@@ -10,7 +10,9 @@ import {
     Alert,
   } from "react-native";
 import DisplayRow from "../../components/DisplayRow";
-import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
+// import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { BarChart } from "react-native-chart-kit";
 import React , {useState}from "react";
 

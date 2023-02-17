@@ -1,71 +1,87 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-import { View, Text, StyleSheet} from 'react-native'
+import {
+    Text,
+    View,
+    StyleSheet,
+    Dimensions,
+    ScrollView,
+    Modal,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Alert,
+  } from "react-native";
+
+// import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+
 
 function Test(){
+    const [modalVisible, setModalVisible] = useState(false);
     return(
-        // <View style={[styles.footer]}>
-        //         <View style={styles.bottomView}>
-        //             <Modal
-        //                 animationType="slide"
-        //                 transparent={true}
-        //                 visible={modalVisible}
-        //                 onRequestClose={() => {
-        //                 setModalVisible(!modalVisible);
-        //                 }}
-        //             >
-        //                 <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-        //                 <View style={styles.bottomView}>
-        //                     <View style={{ marginVertical: 20 }}>
-        //                     <View style={styles.modalRow}>
-        //                         <Text style={styles.modalText}>Spending</Text>
-        //                         <TouchableOpacity
-        //                         style={[styles.floatingBtn, styles.spendingBtn]}
-        //                         onPress={() => {
-        //                             setModalVisible(false);
-        //                             navigation.navigate("AddSpending");
-        //                         }}
-        //                         >
-        //                         <MaterialCommunityIcons
-        //                             name="cash-minus"
-        //                             size={20}
-        //                             color="white"
-        //                         />
-        //                         </TouchableOpacity>
-        //                     </View>
-        //                     <View style={styles.modalRow}>
-        //                         <Text style={styles.modalText}>Earning</Text>
-        //                         <TouchableOpacity
-        //                         style={[styles.floatingBtn, styles.earningBtn]}
-        //                         onPress={() => {
-        //                             setModalVisible(false);
-        //                             navigation.navigate("AddEarning");
-        //                         }}
-        //                         >
-        //                         <MaterialCommunityIcons
-        //                             name="cash-plus"
-        //                             size={20}
-        //                             color="white"
-        //                         />
-        //                         </TouchableOpacity>
-        //                     </View>
-        //                     </View>
-        //                 </View>
-        //                 </TouchableWithoutFeedback>
-        //             </Modal>
-        //         </View>
-        //         {!modalVisible && (
-        //         <TouchableOpacity
-        //             style={styles.floatingBtn}
-        //             onPress={() => setModalVisible(!modalVisible)}
-        //         >
-        //             <AntDesign name="plus" size={24} color="white" />
-        //         </TouchableOpacity>
-        //         )}
-        //     </View>
-        <View>
-            <Text> Test TransactionWallet</Text>
-        </View>
+        <View style={[styles.footer]}>
+                <View style={styles.bottomView}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                        <View style={styles.bottomView}>
+                            <View style={{ marginVertical: 20 }}>
+                            <View style={styles.modalRow}>
+                                <Text style={styles.modalText}>Spending</Text>
+                                <TouchableOpacity
+                                style={[styles.floatingBtn, styles.spendingBtn]}
+                                onPress={() => {
+                                    setModalVisible(false);
+                                    navigation.navigate("AddSpending");
+                                }}
+                                >
+                                <MaterialCommunityIcons
+                                    name="cash-minus"
+                                    size={20}
+                                    color="white"
+                                />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.modalRow}>
+                                <Text style={styles.modalText}>Earning</Text>
+                                <TouchableOpacity
+                                style={[styles.floatingBtn, styles.earningBtn]}
+                                onPress={() => {
+                                    setModalVisible(false);
+                                    navigation.navigate("AddEarning");
+                                }}
+                                >
+                                <MaterialCommunityIcons
+                                    name="cash-plus"
+                                    size={20}
+                                    color="white"
+                                />
+                                </TouchableOpacity>
+                            </View>
+                            </View>
+                        </View>
+                        </TouchableWithoutFeedback>
+                    </Modal>
+                </View>
+                {!modalVisible && (
+                <TouchableOpacity
+                    style={styles.floatingBtn}
+                    onPress={() => setModalVisible(!modalVisible)}
+                >
+                    <AntDesign name="plus" size={24} color="white" />
+                </TouchableOpacity>
+                )}
+            </View>
+        // <View>
+        //     <Text> Test TransactionWallet</Text>
+        // </View>
     )
 }
 

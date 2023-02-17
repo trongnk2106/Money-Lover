@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from './src/Screen/Home/Home'
 import TransactionWallet from './src/Screen/Home/TransactionWallet';
-
+import AddNewStatus from './src/Screen/Create/AddNewStatus'
 // function HomeScreen() {
 //     return (
 //       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -22,13 +22,13 @@ import TransactionWallet from './src/Screen/Home/TransactionWallet';
 //     );
 //   }
   
-  function Add() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Add!</Text>
-      </View>
-    );
-  }
+//   function Add() {
+//     return (
+//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>Add!</Text>
+//       </View>
+//     );
+//   }
 
   function Lapkehoach() {
     return (
@@ -66,10 +66,10 @@ import TransactionWallet from './src/Screen/Home/TransactionWallet';
               tabBarInactiveTintColor: 'gray',
             })}
           >
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Wallet" component={TransactionWallet} />
-            <Tab.Screen name= "Add" component={Add} />
-            <Tab.Screen name= "Lap ke hoach" component={Lapkehoach} />
+            <Tab.Screen name="Home" component={Home} options={{headerShown:false}} />
+            <Tab.Screen name="Wallet" component={TransactionWallet} options={{headerShown:false}} />
+            <Tab.Screen name= "Add" component={AddNewStatus} options={{headerShown:false}} />
+            <Tab.Screen name= "Lap ke hoach" component={Lapkehoach} options={{headerShown:false}} />
           </Tab.Navigator>
         </NavigationContainer>
       );
