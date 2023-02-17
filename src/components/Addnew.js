@@ -15,8 +15,8 @@ const db =  openDatabase({ name: 'test.db',createFromLocation : 1})
 
 
 function Addneww() {
-    const [ID, setID] = useState('0')
-    const [sotien, setmoney] = useState(0)
+    const [ID, setID] = useState('')
+    const [sotien, setmoney] = useState('')
     const [nhom, setnhom] = useState('')
     const [ghichu, setghichu] = useState('')
     const [ngay, setngay] = useState('')
@@ -84,6 +84,7 @@ function Addneww() {
             var newID = ID + 1
             setID(newID)
             var thu = 1
+            var newMoney = sotien
             if (ThuChi == "CHI"){
                 thu = 0
                 var newMoney = - sotien

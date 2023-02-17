@@ -55,20 +55,39 @@ function TestBD(){
                 [],
                 (tx, results) =>{
                     var temp = []
-                    var summ = 0
-                    var tp = [{"MONTH": 2, "SUMMONEY": 0}]
+                    // var sumx = []
+                    var summ = [{"THU:": 0, "CHI:": 0}]
+                    // var tp = [{"MONTH": 0, "THU": 0, "CHI:": 0}]
+                    // {"MONTH": 1, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 2, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 3, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 4, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 5, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 6, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 7, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 8, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 9, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 10, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 11, "THU": 0, "CHI:": 0},
+                    // {"MONTH": 12, "THU": 0, "CHI:": 0}
+                    // ]
                     for (let i = 0; i < results.rows.length; i++){
-                        temp.push(results.rows.item(i))
-                        summ = summ + results.rows.item(i).Money
+                        var a = results.rows.item(i)
+                        temp.push(a)
+                        if ( a.THU == 1){
+                            summ[0]['THU:'] = summ[0]['THU:'] + a.Money
+                        }
+                        else summ[0]['CHI:'] = summ[0]['CHI:'] + a.Money
+                        // sumx.push(summ)
                         // if (results.rows.item(i).DATE.slice(5,7) == "02")
-                        //     tp[0].SUMMONEY = tp[0].SUMMONEY + 600
+                        //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
                         // console.log(results.rows.item(i).DATE.slice(5,7))
                     }
                     console.log(temp)
                     console.log(summ)
-                    console.log(tp)
-                    setSumM(tp)
-                    setSum(summ)
+                    // console.log(tp)
+                    // setSumM(tp)
+                    // setSum(summ)
                     setListData(temp)
                     
                 }
@@ -115,7 +134,6 @@ function TestBD(){
         
       </View>
       <View>
-        <Text>{sum}</Text>
         {/* <Text>123</Text> */}
     </View>
     </SafeAreaView>
