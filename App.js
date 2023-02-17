@@ -52,12 +52,15 @@ import AddNewStatus from './src/Screen/Create/AddNewStatus'
                 let iconName;
     
                 if (route.name === 'Home') {
-                  iconName = focused
-                    ? 'home'
-                    : 'home-outline';
-                } else if (route.name === 'Settings') {
+                  iconName = focused ? 'home' : 'home-outline';
+                } else if (route.name === 'Wallet') {
                   iconName = focused ? 'wallet' : 'wallet-outline';
+                } else if (route.name === 'Add') {
+                  iconName = focused ? 'add-circle' : 'add-circle-outline';
+                } else {
+                  iconName = focused ? 'journal' : 'journal-outline';
                 }
+                
     
                 // You can return any component that you like here!
                 return <Ionicons name={iconName} size={size} color={color} />;
