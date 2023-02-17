@@ -110,7 +110,7 @@ function Addneww() {
                     onPress={() => Alert.alert('Button with adjusted color pressed')}
                 />
                 <Text style = {{fontSize:20, fontWeight:'bold'}}> Thêm giao dịch</Text>
-                <Text style = {{fontSize:20, fontWeight:'bold'}}> {ID}</Text>
+                {/* <Text style = {{fontSize:20, fontWeight:'bold'}}> {ID}</Text> */}
                 <Button
                     title="Lưu"
                     style = {{fontSize:20, fontWeight:'bold'}}
