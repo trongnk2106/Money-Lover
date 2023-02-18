@@ -10,75 +10,173 @@ import {
     Alert,
     FlatList,
   } from "react-native";
-import DisplayRow from "../../components/DisplayRow";
+// import DisplayRow from "../../components/DisplayRow";
 // import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { BarChart } from "react-native-chart-kit";
-import React , {useState}from "react";
+import React , {useState, useEffect}from "react";
+import { openDatabase } from 'react-native-sqlite-storage';
+import DisplayRow from '../../components/DisplayRow';
+// import { modifine, setModifine } from '../../CheckModifine';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const db =  openDatabase({ name: 'data.db', readOnly: false,createFromLocation : 1})
 
 function  TransactionWallet({ navigation }) {
+    const [ID, setID] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
-    // const DATA = [
-    //     {
-    //       id: '1',
-    //       title: '03/2022',
-    //     },
-    //     {
-    //       id: '2',
-    //       title: '04/2022',
-    //     },
-    //     {
-    //       id: '3',
-    //       title: '05/2022',
-    //     },
-    //     {
-    //         id: '4',
-    //         title: '06/2022',
-    //     },
-    //     {
-    //         id: '5',
-    //         title: '07/2022',
-    //     },
-    //     {
-    //         id: '6',
-    //         title: '08/2022',
-    //     },
-    //     {
-    //         id: '7',
-    //         title: '09/2022',
-    //     },
-    //   ];
-
-    // const DATA = [
-    //     {
-    //       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    //       title: 'thang 1',
-    //     },
-    //     {
-    //       id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    //       title: 'thang 2',
-    //     },
-    //     {
-    //       id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    //       title: 'thang 3',
-    //     },
-    //   ];
-      
+    const [ListData, setListData] = useState([])
+    const [sum, setSum] = useState([])
+    const getData = useEffect(() => {
+        // console.log(1)
+        // setdb(openDatabase({ name: 'data.db', readOnly: false,createFromLocation : 1}))
+        db.transaction((tx) =>{
+                tx.executeSql(
+                    "SELECT * FROM GIAODICH",
+                    [],
+                    (tx, results) =>{
+                        var temp = []
+                        // var sumx = []
+                        var arr = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+                        
+                        var summ = [{"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0},
+                        {"THU": 0, "CHI": 0}]
+                        
+                        for (let i = 0; i < results.rows.length; i++){
+                          var a = results.rows.item(i)
+                          temp.push(a)
+                          console.log(1)
+                          if ( a.Thu == 1){
+                            summ[0]['THU'] = summ[0]['THU'] + a.Money
+                            for (let k = 0; k <12; k++){
+                                if (a.Date.slice(5,7) == arr[k])
+                                    summ[k+1]['THU'] = summ[k+1]['THU'] + a.Money
+                            }
+                          }
+                          else {
+                              summ[0]['CHI'] = summ[0]['CHI'] + a.Money
+                              for (let k = 0; k <12; k++){
+                                  // console.log(a)
+                                  if (a.Date.slice(5,7) == arr[k])
+                                      summ[k+1]['CHI'] = summ[k+1]['CHI'] + a.Money
+                              }
+                          }
+                            // sumx.push(summ)
+                            // if (results.rows.item(i).DATE.slice(5,7) == "02")
+                            //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
+                            // console.log(results.rows.item(i).DATE.slice(5,7))
+                        }
+                        // console.log(temp, 1)
     
-    // const Item = ({title}) => {
-    //     <View style= {{width:100, height:50 }}>
-    //         <Text style={{fontSize:15}}>{title}</Text>
-    //     </View>
-    // }
-
+                        // setSumM(tp)
+                        
+                        setSum(summ)
+                        // console.log(sum)
+                        setListData(temp)
+                        // console.log(temp)
+                    }
+                )
+            })
+      }, []);  
+    let ShowSum = (item) => {
+        console.log(item)
+  
+        if (item != null){
+            return (item.CHI + item.THU)
+        }
+        };
+        const getDataMonth = (summ) =>{
+            var Month = new Date().getMonth()
+            var lb = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octoberr","November", "December"]  
+            var x = [0, 0, 0, 0, 0,0,0,0,0,0,0,0]
+            if (summ != null){
+                for (i = 1; i <=12; i++){
+                    if (summ[i] != null)
+                        x[i - 1] = summ[i].CHI + summ[i].THU
+                }
+                return {
+                    labels: [lb[Month - 1], lb[Month], lb[Month + 1]],
+                    datasets: [
+                      {
+                        data: [x[Month - 1], x[Month], x[Month + 1]]
+                      }
+                    ]
+                  };
+            }
+        }
+        const ShowTHU = (ListData) =>{
+            // console.log(123)
+            if (ListData != null){
+                // console.log(ListData)
+                var dataThu = []
+                var k = 0
+                for (let  i = ListData.length - 1; i >= 0; i-- ){
+                    // console.log(ListData[i])
+                    if (ListData[i].Thu == 1){
+                        var x = {"Date": ListData[i].Date, "Money": ListData[i].Money,"Category": ListData[i].Category}
+                        dataThu.push(x)
+                        k = k + 1 
+                    }
+                    // console.log(dataThu)
+                    if ( k == 3)
+                        break
+                }
+                return(
+                    <View>
+                    <DisplayRow data = {dataThu[0]} />
+                    <DisplayRow data = {dataThu[1]}/>
+                    <DisplayRow data = {dataThu[2]}/>
+                </View>
+                )
+            }
+            
+        }
+        const ShowCHI = (ListData) =>{
+            // console.log(123)
+            if (ListData != null){
+                // console.log(ListData)
+                var dataCHI = []
+                var k = 0
+                for (let  i = ListData.length - 1; i >= 0; i-- ){
+                    console.log(ListData[i])
+                    if (ListData[i].Thu == 0){
+                        var x = {"Date": ListData[i].Date, "Money": ListData[i].Money, "Category": ListData[i].Category}
+                        dataCHI.push(x)
+                        k = k + 1 
+                    }
+                    // console.log(dataThu)
+                    if ( k == 3)
+                        break
+                }
+                return(
+                    <View>
+                    <DisplayRow data = {dataCHI[0]} />
+                    <DisplayRow data = {dataCHI[1]}/>
+                    <DisplayRow data = {dataCHI[2]}/>
+                </View>
+                )
+            }
+            
+        }   
     return (
         <View style={styles.container}>
             <ScrollView>
                 {/* summary container */}
                 <View style={[styles.homeDiv, styles.homeSummary]}>
-                <Text style={styles.summHeading}>So du</Text>
-                <Text style={{fontSize: 14,fontFamily: "Poppins",textAlign:"center"}}>Total Spent This Week </Text>
+                <Text style={styles.summHeading}>Số dư</Text>
+                <Text style={{fontSize: 14,fontFamily: "Poppins",textAlign:"center"}}>{ShowSum(sum[0])} </Text>
                 {/* <View>
                    
                     <FlatList
@@ -96,14 +194,15 @@ function  TransactionWallet({ navigation }) {
                 {/* chart container */}
                 <View style={[styles.homeDiv]}>
                 <BarChart
-                    data={{
-                    labels: ["January", "February", "March", "April", "May", "June"],
-                    datasets: [
-                        {
-                        data: [20, 45, 28, 80, 99, 43],
-                        },
-                    ],
-                    }}
+                    data={getDataMonth(sum)}
+                    // {{
+                    // labels: ["January", "February", "March", "April", "May", "June"],
+                    // datasets: [
+                    //     {
+                    //     data: [20, 45, 28, 80, 99, 43],
+                    //     },
+                    // ],
+                    // }}
                     width={Dimensions.get("window").width - 30}
                     height={220}
                     yAxisLabel={"Rs"}
@@ -132,12 +231,12 @@ function  TransactionWallet({ navigation }) {
                     <Text style={styles.summText}>View All</Text>
                     </TouchableOpacity>
                 </View>
-
-                <View>
+                {ShowTHU(ListData)}
+                {/* <View>
                     <DisplayRow />
                     <DisplayRow />
                     <DisplayRow />
-                </View>
+                </View> */}
                 </View>
                 {/* end of spending container */}
                 {/* earning container */}
@@ -150,11 +249,12 @@ function  TransactionWallet({ navigation }) {
                     </TouchableOpacity>
                 </View>
                 {/* contents row */}
-                <View>
+                {ShowCHI(ListData)}
+                {/* <View>
                     <DisplayRow />
                     <DisplayRow />
                     <DisplayRow />
-                </View>
+                </View> */}
                 </View>
                 {/* end of earning container      */}
             </ScrollView>

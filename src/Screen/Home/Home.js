@@ -16,6 +16,8 @@ const db =  openDatabase({ name: 'data.db', readOnly: false,createFromLocation :
 const Stack = createNativeStackNavigator();
 // class App extends Component {
 function Home ({ navigation }) {
+  
+  const [ID, setID] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [ListData, setListData] = useState([])
   const [sum, setSum] = useState([])
@@ -79,9 +81,26 @@ function Home ({ navigation }) {
   //   // modifine
   //   get()
   // }, [])
-  const getData = useEffect(() => {
-        // console.log(1)
+  useEffect(() => {
+    var newID = 1
+    console.log(1)
+    db.transaction((tx) =>{
+        tx.executeSql(
+            "SELECT * FROM GIAODICH",
+            [],
+            (tx, results) =>{
+                newID = results.rows.length
+                setID(newID)
+                console.log(ID)
+            }
+        )
+    })
+    // console.log(ID)
+  }, [ID + 1])
+  // console.log(1)
 
+  const getData = useEffect(() => {
+        // setdb(openDatabase({ name: 'data.db', readOnly: false,createFromLocation : 1}))
         db.transaction((tx) =>{
                 tx.executeSql(
                     "SELECT * FROM GIAODICH",
@@ -136,7 +155,7 @@ function Home ({ navigation }) {
                     }
                 )
             })
-      }, [sum[0]]);  
+      }, []);  
     
     let ShowSum = (item) => {
       // console.log(item)
@@ -203,22 +222,22 @@ function Home ({ navigation }) {
       <View style = {styles.head}>
         <View style={{marginTop:15}}>
           <Text style = {{flexDirection:'row', margin: 10, fontSize: 30, fontWeight:'bold'}}> {ShowSum(sum[0])}</Text>
-          <Text style = {{flexDirection:'row', marginLeft : 10, fontSize: 15}}> Tong so du</Text>
+          <Text style = {{flexDirection:'row', marginLeft : 10, fontSize: 15}}> Tổng số dư</Text>
         </View>
         <View style={{marginTop:25,marginLeft:15, marginRight:15 , height: 120, backgroundColor: 'white', borderRadius: 10}}>
           <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-            <Text style={{marginLeft: 10, marginTop:15, fontWeight:'bold', fontSize:15}}> Vi cua toi</Text>
-            <Text style = {{color: '#2cf205', marginTop:15, marginRight:15, fontWeight:'bold', fontSize:15}}> Xem tat ca</Text>
+            <Text style={{marginLeft: 10, marginTop:15, fontWeight:'bold', fontSize:15}}> Ví của tôi</Text>
+            {/* <Text style = {{color: '#2cf205', marginTop:15, marginRight:15, fontWeight:'bold', fontSize:15}}> Xem tat ca</Text> */}
           </View>
           <View style={{backgroundColor:'#90968f', height:1, marginTop:15, marginLeft:5, marginRight:5}}/>
           <View style={{flexDirection:'row', marginTop:15, fontSize:15, fontWeight:'bold', justifyContent:'space-between'}}>
-            <Text style ={{marginLeft:10,fontWeight:'bold'}}> Tien mat</Text>
+            <Text style ={{marginLeft:10,fontWeight:'bold'}}> Tiền mặt</Text>
             <Text style ={{marginRight:5, fontWeight:'bold'}}> {ShowSum(sum[0])}</Text>
           </View>
         </View>
       </View>
       <View style={{flexDirection:'row', marginBottom:15,justifyContent:'space-between'}}>
-        <Text style={{ marginLeft:15, fontWeight:'bold'}}> Bao cao chi tieu</Text>
+        <Text style={{ marginLeft:15, fontWeight:'bold'}}> Báo cáo chi tiêu</Text>
         <Text style={{marginRight:15, fontWeight:'bold', color:'#2cf205'}}> Xem bao cao</Text>
 
         {/* <Button

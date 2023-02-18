@@ -71,9 +71,9 @@ import AddNewStatus from './src/Screen/Create/NoteStatus'
               tabBarInactiveTintColor: 'gray',
             })}
           >
-            <Tab.Screen name="Home" component={Home} options={{headerShown:false}} />
-            <Tab.Screen name="Wallet" component={TransactionWallet} options={{headerShown:false}} />
-            <Tab.Screen name= "Add" component={AddNewStatus} options={{headerShown:false}} />
+            <Tab.Screen name="Home" component={Home} options={{headerShown:false, unmountOnBlur: true}} />
+            <Tab.Screen name="Wallet" component={TransactionWallet} options={{headerShown:false, unmountOnBlur: true}} />
+            <Tab.Screen name= "Add" component={AddNewStatus} options={{headerShown:false, unmountOnBlur: true}} />
             {/* <Tab.Screen name= "Lap ke hoach" component={Lapkehoach} options={{headerShown:false}} /> */}
           </Tab.Navigator>
         </NavigationContainer>
