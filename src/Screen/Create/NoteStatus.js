@@ -1,4 +1,4 @@
-import React, { Component , useState} from 'react'
+import React, { Component , useState, useEffect} from 'react'
 import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert,
     TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback, Keyboard} from 'react-native'
 
@@ -9,7 +9,9 @@ const windowHeight = Dimensions.get('window').height;
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { TextInput } from "@react-native-material/core";
 import SelectRow from '../../components/SelectRow';
-
+import { openDatabase } from 'react-native-sqlite-storage';
+import CategoryRow from '../../test_flatlist';
+const db =  openDatabase({ name: 'data.db',createFromLocation : 1})
 // const Mycaledar = () => {
 //     const [date, setdate] = useState('')
 //     // console.log(date)
@@ -46,18 +48,84 @@ import SelectRow from '../../components/SelectRow';
 
 
 function AddNewStatus() {
+    const [ID, setID] = useState(0)
+    const [Money, setmoney] = useState(0)
+    const [Category, setCategory] = useState('')
+    // const [ngay, setngay] = useState('')
+    const [ThuChi, setThuChi] = useState('THU')
 
-    const [money, setmoney] = useState('')
-    const [category, setCategory] = useState('')
-    const [ghichu, setghichu] = useState('')
-    const [ngay, setngay] = useState('')
     // const [date, setdate] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const [actionTriggered, setActionTriggered] = useState('');
-    const [date, setdate] = useState('')
-    
+    const [Date, setdate] = useState('')
+    const [ListData, setListData] = useState([])
     // console.log(!!false)
-
+    useEffect(() => {
+        var newID = 0
+        db.transaction((tx) =>{
+            tx.executeSql(
+                "SELECT * FROM GIAODICH",
+                [],
+                (tx, results) =>{
+                    newID = results.rows.length
+                    setID(newID)
+                }
+            )
+        })
+        // console.log(ID)
+      }, []);
+      useEffect(() => {
+        // console.log(1)
+        db.transaction((tx) =>{
+                tx.executeSql(
+                    "SELECT * FROM GIAODICH",
+                    [],
+                    (tx, results) =>{
+                        var temp = []
+                        // var sumx = []
+                    
+                        for (let i = 0; i < results.rows.length; i++){
+                            var a = results.rows.item(i)
+                            temp.push(a)
+                            // sumx.push(summ)
+                            // if (results.rows.item(i).DATE.slice(5,7) == "02")
+                            //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
+                            // console.log(results.rows.item(i).DATE.slice(5,7))
+                        }
+                        // console.log(temp)
+    
+                        // setSumM(tp)
+                        setListData(temp)
+                        console.log(ListData)
+                    }
+                )
+            })
+      }, []); 
+      const setData = async () =>{
+        if (Date.length == 0 || Money == 0 || ThuChi == 0 || Category == 0){
+            Alert.alert('Vui lòng điền đầy đủ thông tin trước khi thêm giao dịch!!!')
+        }
+        else {
+            // getID()
+            var newID = ID + 1
+            setID(newID)
+            var thu = 1
+            var newMoney = Money
+            if (ThuChi == "CHI"){
+                thu = 0
+                var newMoney = - Money
+                setmoney(newMoney)
+            }
+            await db.transaction(async (tx)=> {
+                await tx.executeSql(
+                "INSERT INTO GIAODICH (ID, Money, Thu, Date, Category ) VALUES(?,?,?,?,?)",
+                [newID,newMoney,thu,Date, "asd"]
+                )
+                console.log(newID,newMoney,thu,Date, Category)
+            })
+            Alert.alert('Giao dịch đã được thêm')
+        }
+    }
     return(
         // <View> 
         //     <View style = {{flexDirection :'row', justifyContent:'space-between', margin:15}}>
@@ -132,6 +200,7 @@ function AddNewStatus() {
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.inputs}>
+                    
                     <TouchableOpacity
                         style={styles.selectBtn}
                         onPress={() => {
@@ -142,13 +211,21 @@ function AddNewStatus() {
 
                     >
                         {/* {console.log(modalVisible, actionTriggered)} */}
-                        <Text style={styles.selectTxt}>{category != '' ? category : 'Select Category'}</Text>
+                        <Text style={styles.selectTxt}>{Category != '' ? Category : 'Select Category'}</Text>
                         <AntDesign
                             // style={{ paddingLeft: 10 }}
                             name="down"
                             size={24}
                             color="black"
                         />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={()=> {
+                        if (ThuChi == "CHI"){
+                            setThuChi("THU")
+                        }    
+                        else setThuChi("CHI")
+                    }}>
+                        <Text>{ThuChi}</Text>
                     </TouchableOpacity>
                     
                     <Modal
@@ -236,7 +313,7 @@ function AddNewStatus() {
                                     console.log('onPressArrowRight'); goToNextMonth();
                                     }}
                                     markedDates={{
-                                        [date] : {selected: true, marked: true, selectedColor: '#466A8F'}
+                                        [Date] : {selected: true, marked: true, selectedColor: '#466A8F'}
                                     }}
                                 />
                         
@@ -253,7 +330,7 @@ function AddNewStatus() {
                         onPress={() => {setModalVisible(true);
                             setActionTriggered('calendar');}}
                     >
-                        <Text >{date != '' ? date : 'select date'}</Text>
+                        <Text >{Date != '' ? Date : 'select date'}</Text>
 
                         <AntDesign
                             // style={{ paddingLeft: 10 }}
@@ -270,6 +347,7 @@ function AddNewStatus() {
                         style={{height:50, marginVertical:10}}
                         // color="#12B886"
                         keyboardType="numeric"
+                        onChangeText={(newMoney) => setmoney(newMoney)}
 
                     />
                     <TextInput
@@ -285,9 +363,19 @@ function AddNewStatus() {
                 </View>
 
                 <View style={styles.row}>
-                    <TouchableOpacity style={styles.button}>
+                    {/* <TouchableOpacity style={styles.button}>
                         <Text style={styles.btnTxt}>Done</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <Button
+                    title="DONE"
+                    style = {styles.button}
+                    // style={styles.button}
+                    onPress={() => {
+                        setData()
+                        // Alert.alert('Button with adjusted color pressed')
+                        }
+                    }
+                />
                 </View>
             </View>
         </ScrollView>

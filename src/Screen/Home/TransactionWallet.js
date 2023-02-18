@@ -123,17 +123,16 @@ function  TransactionWallet({ navigation }) {
                     }}
                 />
                 </View>
-                {/* end of chart container */}
-                {/* spending container */}
+
                 <View style={[styles.homeDiv, styles.homeSpending]}>
-                {/* header row */}
+
                 <View style={styles.row}>
                     <Text style={styles.rowHeading}>Recent Spending</Text>
                     <TouchableOpacity>
                     <Text style={styles.summText}>View All</Text>
                     </TouchableOpacity>
                 </View>
-                {/* contents row */}
+
                 <View>
                     <DisplayRow />
                     <DisplayRow />
