@@ -1,66 +1,31 @@
 import React, { Component , useState, useEffect} from 'react'
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert,
-    TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback, Keyboard} from 'react-native'
-
-import { Agenda, Calendar } from 'react-native-calendars';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert, SectionList, FlatList,
+    TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback, Keyboard, TextInput } from 'react-native'
 
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { TextInput } from "@react-native-material/core";
 import SelectRow from '../../components/SelectRow';
 import { openDatabase } from 'react-native-sqlite-storage';
 import CategoryRow from '../../test_flatlist';
-// import { modifine, setModifine } from '../../CheckModifine';
+import OptionSwitch from "react-native-option-switch";
+import { Agenda, Calendar } from 'react-native-calendars';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const db =  openDatabase({ name: 'data.db',createFromLocation : 1})
-// const Mycaledar = () => {
-//     const [date, setdate] = useState('')
-//     // console.log(date)
-//     return (
-//       <View>
-          
-//           <Calendar 
-          
-          
-//               onDayPress={(day) => {
-              
-//                   setdate(day.dateString)
-                  
-//               }}
-//               onDayLongPress={(day) => console.log('onDayLongPress', day) }
-//               onMonthChange={(date) => console.log('onMonthChange', date) }
-//               onPressArrowLeft={(goToPreviousMonth) => {
-//               console.log('onPressArrowLeft'); goToPreviousMonth();
-//               }}
-//               onPressArrowRight={(goToNextMonth) => {
-//               console.log('onPressArrowRight'); goToNextMonth();
-//               }}
-//               markedDates={{
-//                   [date] : {selected: true, marked: true, selectedColor: '#466A8F'}
-//               }}
-//           />
-   
-//       </View>
-  
-//     );
-       
-// };
-  
 
 
 function AddNewStatus() {
     const [ID, setID] = useState(0)
+    const [Date, setdate] = useState('')
     const [Money, setmoney] = useState(0)
     const [Category, setCategory] = useState('')
-    // const [ngay, setngay] = useState('')
     const [ThuChi, setThuChi] = useState('THU')
 
-    // const [date, setdate] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const [actionTriggered, setActionTriggered] = useState('');
-    const [Date, setdate] = useState('')
+    
     const [ListData, setListData] = useState([])
-    // console.log(!!false)
+    
     useEffect(() => {
         var newID = 0
         db.transaction((tx) =>{
@@ -73,17 +38,15 @@ function AddNewStatus() {
                 }
             )
         })
-        // console.log(ID)
       }, []);
-      useEffect(() => {
-        // console.log(1)
+
+    useEffect(() => {
         db.transaction((tx) =>{
                 tx.executeSql(
                     "SELECT * FROM GIAODICH",
                     [],
                     (tx, results) =>{
                         var temp = []
-                        // var sumx = []
                     
                         for (let i = 0; i < results.rows.length; i++){
                             var a = results.rows.item(i)
@@ -102,6 +65,7 @@ function AddNewStatus() {
                 )
             })
       }, []); 
+
       const setData = async () =>{
         if (Date.length == 0 || Money == 0 || ThuChi == 0 || Category == 0){
             Alert.alert('Vui lòng điền đầy đủ thông tin trước khi thêm giao dịch!!!')
@@ -127,78 +91,9 @@ function AddNewStatus() {
             // setModifine(!modifine)
         }
     }
+
     return(
-        // <View> 
-        //     <View style = {{flexDirection :'row', justifyContent:'space-between', margin:15}}>
-        //         <Text style = {{fontSize:20, fontWeight:'bold'}}> Huy</Text>
-        //         <Text style = {{fontSize:20, fontWeight:'bold'}}> Them giao dich</Text>
-        //         <Text style = {{fontSize:20, fontWeight:'bold'}}> Luu </Text>
-        //     </View>
 
-        //     <View  style={{
-        //             borderBottomColor: '#575353',
-        //             borderBottomWidth: StyleSheet.hairlineWidth
-        //             }}/>
-        //     <ScrollView>
-        //         <View style={{paddingLeft:50}}>
-        //             <TextInput
-        //             keyboardType='numeric'
-        //                 style={{borderColor:"gray", width:"100%", borderBottomWidth:1, padding:10}}
-        //                 placeholder="0"
-        //                 onChangeText={newMoney => setmoney(newMoney)}
-        //                 defaultValue={sotien}
-        //             />
-        //             <TextInput
-        //                 style={{borderColor:"gray", width:"100%", borderBottomWidth:1, padding:10}}
-        //                 placeholder="Chon nhom"
-        //                 onChangeText={newNhom => setnhom(newNhom)}
-        //                 defaultValue={nhom}
-        //             />
-        //             <TextInput
-        //                 style={{borderColor:"gray", width:"100%", borderBottomWidth:1, padding:10}}
-        //                 placeholder="Them ghi chu"
-        //                 onChangeText={newghichu => setghichu(newghichu)}
-        //                 defaultValue={ghichu}
-        //             />
-
-                    
-        //             <View>
-        //                 <Modal
-        //                     animationType='fade'
-        //                     transparent={true}
-        //                     visible={modalVisible}
-        //                     onRequestClose={() => {
-        //                         Alert.alert('Modal has been closed.');
-        //                         setModalVisible(!modalVisible);
-        //                     }
-        //                 }>
-        //                     <View>
-        //                         <Mycaledar/>
-        //                         <Pressable 
-        //                             onPress = {() => setModalVisible(!modalVisible)}
-                                  
-        //                         >
-        //                             <Text>OK</Text>
-
-        //                         </Pressable>
-        //                     </View>
-                            
-
-        //                 </Modal>
-        //                 <Pressable
-        //                     onPress={() => setModalVisible(true)}
-        //                 >
-        //                     <Text> Hom nay </Text>
-        //                 </Pressable>
-        //             </View>
-         
-        //         </View>
-                
-        //     </ScrollView>
-
-        // </View>
-
-        <ScrollView>
             <View style={styles.container}>
                 <View style={styles.inputs}>
                     
@@ -206,28 +101,55 @@ function AddNewStatus() {
                         style={styles.selectBtn}
                         onPress={() => {
                             setModalVisible(true);
-                            setActionTriggered('category');
-                            // setFlag(true)
-                        }}
-
+                            setActionTriggered('category');}}
                     >
-                        {/* {console.log(modalVisible, actionTriggered)} */}
-                        <Text style={styles.selectTxt}>{Category != '' ? Category : 'Select Category'}</Text>
+
+                        <Text style={styles.selectTxt}>{
+                            Category != '' ? Category : 'Select Category'}
+                        </Text>
                         <AntDesign
-                            // style={{ paddingLeft: 10 }}
                             name="down"
                             size={24}
                             color="black"
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={()=> {
-                        if (ThuChi == "CHI"){
-                            setThuChi("THU")
-                        }    
-                        else setThuChi("CHI")
-                    }}>
-                        <Text>{ThuChi}</Text>
-                    </TouchableOpacity>
+
+
+                    {/* <OptionSwitch
+                        styles={{
+                            item: {
+                                width: 100,
+                                height: 24,
+                                borderRadius: 12,
+                                marginHorizontal: 8,
+                                alignItems: 'center',
+                            },
+                            selectedItem: {
+                                width: 100,
+                                height: 24,
+                                borderRadius: 12,
+                                marginHorizontal: 8,
+                                backgroundColor: '#12B886',
+                                alignItems: 'center',
+                            },
+                        }}
+                        onChange={(value) => {
+                            if (value == 'income')
+                                setThuChi("THU")
+                            else
+                                setThuChi("CHI")
+                        }}
+                        options={[
+                            {
+                                label: 'Income',
+                                value: 'income',
+                                isDefault: true
+                            }, {
+                                label: 'Expense',
+                                value: 'expense'
+                            }
+                        ]}
+                    /> */}
                     
                     <Modal
                         visible={modalVisible}
@@ -242,68 +164,166 @@ function AddNewStatus() {
                                 Category
                             </Text>
                             <View style={styles.divider}></View>
-                            <View>
-                                <TouchableOpacity onPress = {() => {
-                                    setModalVisible(!modalVisible)
-                                    setCategory('Rent')
+
+                            <View style={{height: 400}}>
+                                <ScrollView contentContainerStyle={styles.contentContainer}>
                                     
-                                }}>
-                                <SelectRow
-                                    spendingName="Rent"
-                                    uri="https://img.icons8.com/fluency/512/home-page.png"
-                                />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress = {() => {
-                                    setModalVisible(!modalVisible)
-                                    setCategory('Grocery')
-                                }}>
-                                <SelectRow
-                                    spendingName="Grocery"
-                                    uri="https://img.icons8.com/fluency/512/ingredients.png"
-                                />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress = {() => {
-                                    setModalVisible(!modalVisible)
-                                    setCategory('Clothes')
-                                }}>
-                                <SelectRow
-                                    spendingName="Clothes"
-                                    uri="https://img.icons8.com/plasticine/512/clothes.png"
-                                />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress = {() => {
-                                    setModalVisible(!modalVisible)
-                                    setCategory('Shoes')
-                                }}>
-                                <SelectRow
-                                    spendingName="Shoes"
-                                    uri="https://img.icons8.com/parakeet/512/shoes.png"
-                                />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress = {() => {
-                                    setModalVisible(!modalVisible)
-                                    setCategory('Electricity')
-                                }}>
-                                <SelectRow
-                                    spendingName="Electricity"
-                                    uri="https://img.icons8.com/fluency/512/paid-bill.png"
-                                />
-                                </TouchableOpacity>
+                                    <Text style={styles.sectionBar}>Monthly Expenses</Text>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Rent')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Rent"
+                                        uri="https://img.icons8.com/fluency/512/home-page.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Travel')
+                                        setThuChi("CHI")
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Travel"
+                                        uri="https://img.icons8.com/external-flaticons-flat-flat-icons/2x/external-vehicles-automotive-dealership-flaticons-flat-flat-icons-5.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Food')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Food"
+                                        uri="https://img.icons8.com/plasticine/2x/food.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Bill')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Bill"
+                                        uri="https://img.icons8.com/fluency/512/paid-bill.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.sectionBar}>Necessary Expenses</Text>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Medical')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Medical"
+                                        uri="https://img.icons8.com/fluency/2x/hospital.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Education')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Education"
+                                        uri="https://img.icons8.com/fluency/2x/graduation-cap.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Grocery')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Grocery"
+                                        uri="https://img.icons8.com/fluency/512/ingredients.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.sectionBar}>Discretionary Expenses</Text>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Entertainment')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Entertainment"
+                                        uri="https://img.icons8.com/fluency/2x/ps-controller.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Shopping')
+                                        setThuChi("CHI")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Shopping"
+                                        uri="https://img.icons8.com/fluency/2x/add-shopping-cart.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.sectionBar}>Income</Text>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Salary')
+                                        setThuChi("THU")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Salary"
+                                        uri="https://img.icons8.com/fluency/2x/money.png"
+                                    />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        setCategory('Other Income')
+                                        setThuChi("THU")
+                                        
+                                    }}>
+                                    <SelectRow
+                                        spendingName="Other Income"
+                                        uri="https://img.icons8.com/fluency/2x/growing-money.png"
+                                    />
+                                    </TouchableOpacity>
+
+
+
+                                </ScrollView>
                             </View>
+
+
+
                             </View> 
                         </View> :
+
                         actionTriggered === 'calendar' ?
-                        <View>
-                            {/* <Mycaledar/> */}
-                            <View>
-            
+
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
                                 <Calendar 
-                                
-                                
                                     onDayPress={(day) => {
-                                    
                                         setdate(day.dateString)
-                                        
                                     }}
                                     onDayLongPress={(day) => console.log('onDayLongPress', day) }
                                     onMonthChange={(date) => console.log('onMonthChange', date) }
@@ -317,24 +337,28 @@ function AddNewStatus() {
                                         [Date] : {selected: true, marked: true, selectedColor: '#466A8F'}
                                     }}
                                 />
+
+                                <View style={styles.row}>
+                                    <TouchableOpacity 
+                                        style={styles.doneBtn} 
+                                        onPress = {() => setModalVisible(!modalVisible)}>
+                                        <Text style={styles.btnTxt}>Done</Text>
+                                    </TouchableOpacity>
+                                </View>                              
                         
                             </View>
-    
-                                <Pressable onPress = {() => setModalVisible(!modalVisible)}>
-                                    <Text>OK</Text>
-                                </Pressable>
                         </View> : null}
                     </Modal>
+
 
                     <TouchableOpacity
                         style={styles.selectBtn}
                         onPress={() => {setModalVisible(true);
                             setActionTriggered('calendar');}}
                     >
-                        <Text >{Date != '' ? Date : 'select date'}</Text>
+                        <Text style={styles.selectTxt}>{Date != '' ? Date : 'Select Date'}</Text>
 
                         <AntDesign
-                            // style={{ paddingLeft: 10 }}
                             name="calendar"
                             size={24}
                             color="black"
@@ -342,44 +366,36 @@ function AddNewStatus() {
                     </TouchableOpacity>
 
                     <TextInput
-                        // variant="outlined"
+                        style = {styles.inputText}
                         placeholder='Amount'
-                        // label="Amount"
-                        style={{height:50, marginVertical:10}}
-                        // color="#12B886"
                         keyboardType="numeric"
                         onChangeText={(newMoney) => setmoney(newMoney)}
-
                     />
+
                     <TextInput
-                        // variant="outlined"
-                        // label="Add Note (Optional)"
-                        placeholder='Add note (Optional)'
-                        color="#12B886"
+                        style = {styles.inputText}
+                        placeholder='Add Note (Optional)'
                         multiline={true}
                         numberOfLines={10}
-                        style={{ marginVertical: 10 }}
+                        // onChangeText={newghichu => setghichu(newghichu)}
+                        // defaultValue={ghichu}
                     />
 
                 </View>
 
                 <View style={styles.row}>
-                    {/* <TouchableOpacity style={styles.button}>
-                        <Text style={styles.btnTxt}>Done</Text>
-                    </TouchableOpacity> */}
                     <Button
-                    title="DONE"
-                    style = {styles.button}
-                    // style={styles.button}
-                    onPress={() => {
-                        setData()
-                        // Alert.alert('Button with adjusted color pressed')
+                        title="ADD"
+                        style = {styles.button}
+                        onPress={() => {
+                            setData()
+                            // Alert.alert('Button with adjusted color pressed')
+                            }
                         }
-                    }
                 />
                 </View>
+
             </View>
-        </ScrollView>
 
     )
 
@@ -423,6 +439,7 @@ const styles = StyleSheet.create({
       justifyContent: "space-between",
       alignContent: "center",
       alignItems: "center",
+      marginVertical: 10,
     },
     selectTxt: {
       fontFamily: "PoppinsBold",
@@ -446,6 +463,7 @@ const styles = StyleSheet.create({
       textAlign: "center",
       fontFamily: "PoppinsBold",
       fontSize: 16,
+      fontWeight: 'bold'
     },
     divider: {
       height: 1,
@@ -453,6 +471,41 @@ const styles = StyleSheet.create({
       backgroundColor: "rgba(0,0,0, 0.3)",
       marginVertical: 10,
     },
+    inputText: {
+        width: Dimensions.get("screen").width - 30,
+        borderWidth: 0.5,
+        padding: 15,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center",
+        alignItems: "center",
+        marginVertical: 10
+      },
+    doneBtn: {
+        backgroundColor: "#466A8F",
+        padding: 10,
+        width: 100,
+        flexDirection: "row",
+        justifyContent: "center",
+        borderRadius: 6,
+        marginHorizontal: 30
+      },
+    selectedItem: {
+        width: 100,
+        height: 24,
+        borderRadius: 12,
+        marginHorizontal: 8,
+        backgroundColor: '#466A8F',
+        alignItems: 'center',
+    },
+    sectionBar: {
+        marginTop: 13,
+        backgroundColor: '#D0CFCF',
+        height: 30,
+        textAlignVertical: 'center',
+        fontWeight: 'bold',
+        paddingLeft: 10
+    }
   });  
 
 

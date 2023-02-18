@@ -39,10 +39,10 @@ export default function DisplayRow(props) {
     <View style={styles.row}>
         <View style={styles.col}>
             {/* <Image
-            source={{
-                uri: "https://img.icons8.com/fluency/512/home-page.png",
-            }}
-            style={{ width: 40, height: 40, marginRight:10 }}
+                source={{
+                    uri: 
+                }}
+                style={{ width: 40, height: 40, marginRight:10 }}
             /> */}
             <View>
                 <Text style={styles.heading}>{props.data.Category}</Text>

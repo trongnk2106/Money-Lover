@@ -10,7 +10,7 @@ import {
     Alert,
     FlatList,
   } from "react-native";
-// import DisplayRow from "../../components/DisplayRow";
+
 // import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,7 +18,7 @@ import { BarChart } from "react-native-chart-kit";
 import React , {useState, useEffect}from "react";
 import { openDatabase } from 'react-native-sqlite-storage';
 import DisplayRow from '../../components/DisplayRow';
-// import { modifine, setModifine } from '../../CheckModifine';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -125,7 +125,12 @@ function  TransactionWallet({ navigation }) {
                 for (let  i = ListData.length - 1; i >= 0; i-- ){
                     // console.log(ListData[i])
                     if (ListData[i].Thu == 1){
-                        var x = {"Date": ListData[i].Date, "Money": ListData[i].Money,"Category": ListData[i].Category}
+                        var x = {
+                            "Date": ListData[i].Date, 
+                            "Money": ListData[i].Money,
+                            "Category": ListData[i].Category,
+                            "Image": ListData[i].Image
+                        }
                         dataThu.push(x)
                         k = k + 1 
                     }
@@ -135,10 +140,10 @@ function  TransactionWallet({ navigation }) {
                 }
                 return(
                     <View>
-                    <DisplayRow data = {dataThu[0]} />
-                    <DisplayRow data = {dataThu[1]}/>
-                    <DisplayRow data = {dataThu[2]}/>
-                </View>
+                        <DisplayRow data = {dataThu[0]} />
+                        <DisplayRow data = {dataThu[1]}/>
+                        <DisplayRow data = {dataThu[2]}/>
+                    </View>
                 )
             }
             
@@ -226,7 +231,7 @@ function  TransactionWallet({ navigation }) {
                 <View style={[styles.homeDiv, styles.homeSpending]}>
 
                 <View style={styles.row}>
-                    <Text style={styles.rowHeading}>Recent Spending</Text>
+                    <Text style={styles.rowHeading}>Recent Income</Text>
                     <TouchableOpacity>
                     <Text style={styles.summText}>View All</Text>
                     </TouchableOpacity>
@@ -243,7 +248,7 @@ function  TransactionWallet({ navigation }) {
                 <View style={[styles.homeDiv, styles.homeSpending]}>
                 {/* header row */}
                 <View style={styles.row}>
-                    <Text style={styles.rowHeading}>Recent Income</Text>
+                    <Text style={styles.rowHeading}>Recent Expenses</Text>
                     <TouchableOpacity>
                     <Text style={styles.summText}>View All</Text>
                     </TouchableOpacity>
@@ -258,67 +263,8 @@ function  TransactionWallet({ navigation }) {
                 </View>
                 {/* end of earning container      */}
             </ScrollView>
-            {/* floating button */}
-            <View style={[styles.footer]}>
-                <View style={styles.bottomView}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                        setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-                        <View style={styles.bottomView}>
-                            <View style={{ marginVertical: 20 }}>
-                            <View style={styles.modalRow}>
-                                <Text style={styles.modalText}>Spending</Text>
-                                <TouchableOpacity
-                                style={[styles.floatingBtn, styles.spendingBtn]}
-                                onPress={() => {
-                                    setModalVisible(false);
-                                    navigation.navigate("AddSpending");
-                                }}
-                                >
-                                <MaterialCommunityIcons
-                                    name="cash-minus"
-                                    size={20}
-                                    color="white"
-                                />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.modalRow}>
-                                <Text style={styles.modalText}>Earning</Text>
-                                <TouchableOpacity
-                                style={[styles.floatingBtn, styles.earningBtn]}
-                                onPress={() => {
-                                    setModalVisible(false);
-                                    navigation.navigate("AddEarning");
-                                }}
-                                >
-                                <MaterialCommunityIcons
-                                    name="cash-plus"
-                                    size={20}
-                                    color="white"
-                                />
-                                </TouchableOpacity>
-                            </View>
-                            </View>
-                        </View>
-                        </TouchableWithoutFeedback>
-                    </Modal>
-                </View>
-                {!modalVisible && (
-                <TouchableOpacity
-                    style={styles.floatingBtn}
-                    onPress={() => setModalVisible(!modalVisible)}
-                >
-                    <AntDesign name="plus" size={24} color="white" />
-                </TouchableOpacity>
-                )}
-            </View>
-            {/* end of floating button */}
+            
+            
         </View>
     );
 }
@@ -391,6 +337,7 @@ row: {
 rowHeading: {
     fontSize: 20,
     fontFamily: "PoppinsBold",
+    fontWeight: "bold"
 },
 footer: {
     flex: 0,
