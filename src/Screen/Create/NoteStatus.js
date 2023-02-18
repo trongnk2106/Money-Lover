@@ -119,7 +119,7 @@ function AddNewStatus() {
             await db.transaction(async (tx)=> {
                 await tx.executeSql(
                 "INSERT INTO GIAODICH (ID, Money, Thu, Date, Category ) VALUES(?,?,?,?,?)",
-                [newID,newMoney,thu,Date, "asd"]
+                [newID,newMoney,thu,Date, Category]
                 )
                 console.log(newID,newMoney,thu,Date, Category)
             })

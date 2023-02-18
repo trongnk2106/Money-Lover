@@ -19,7 +19,7 @@ function Home ({ navigation }) {
   const [ListData, setListData] = useState([])
   const [sum, setSum] = useState([])
 
-  useEffect(() => {
+  const getDATA = useEffect(() => {
         console.log(1)
         db.transaction((tx) =>{
                 tx.executeSql(
@@ -46,11 +46,10 @@ function Home ({ navigation }) {
                         for (let i = 0; i < results.rows.length; i++){
                           var a = results.rows.item(i)
                           temp.push(a)
-                          console.log(a.Thu)
                           if ( a.Thu == 1){
                             summ[0]['THU'] = summ[0]['THU'] + a.Money
                             for (let k = 0; k <12; k++){
-                                if (a.DATE.slice(5,7) == arr[k])
+                                if (a.Date.slice(5,7) == arr[k])
                                     summ[k+1]['THU'] = summ[k+1]['THU'] + a.Money
                             }
                           }
@@ -58,7 +57,7 @@ function Home ({ navigation }) {
                               summ[0]['CHI'] = summ[0]['CHI'] + a.Money
                               for (let k = 0; k <12; k++){
                                   // console.log(a)
-                                  if (a.DATE.slice(5,7) == arr[k])
+                                  if (a.Date.slice(5,7) == arr[k])
                                       summ[k+1]['CHI'] = summ[k+1]['CHI'] + a.Money
                               }
                           }
@@ -80,6 +79,7 @@ function Home ({ navigation }) {
     
     let ShowSum = (item) => {
       // console.log(item)
+      
       if (item != null){
           return (item.CHI + item.THU)
       }
@@ -129,6 +129,7 @@ function Home ({ navigation }) {
       
   }    
   return (
+    // {await getDATA},
     <ScrollView style = {{backgroundColor:'#d7dbdb'}}>
       <View style = {styles.head}>
         <View style={{marginTop:15}}>
