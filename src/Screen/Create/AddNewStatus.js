@@ -12,7 +12,8 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { TextInput } from "@react-native-material/core";
+// import { TextInput } from "@react-native-material/core";
+import { TextInput } from "react-native";
 import SelectRow from "../../components/SelectRow";
 
 const Mycaledar = () => {
@@ -222,19 +223,18 @@ function AddNewStatus() {
                 </TouchableOpacity>
 
                 <TextInput
-                    variant="outlined"
-                    label="Amount"
-                    style={{ marginVertical: 10 }}
-                    color="#12B886"
-                    keyboardType="numeric"
+                    style = {styles.inputText}
+                    placeholder="Amount"
+                    onChangeText={sotien => setnhom(setmoney)}
+                    defaultValue={sotien}
                 />
                 <TextInput
-                    variant="outlined"
-                    label="Add Note (Optional)"
-                    color="#12B886"
-                    multiline={true}
-                    numberOfLines={10}
-                    style={{ marginVertical: 10 }}
+                    style = {styles.inputText}
+                    placeholder="Add Note"
+                    onChangeText={newghichu => setghichu(newghichu)}
+                    multiline
+                    numberOfLines={4}
+                    defaultValue={ghichu}
                 />
 
             </View>
@@ -288,6 +288,7 @@ const styles = StyleSheet.create({
       justifyContent: "space-between",
       alignContent: "center",
       alignItems: "center",
+      marginVertical: 10
     },
     selectTxt: {
       fontFamily: "PoppinsBold",
@@ -317,6 +318,16 @@ const styles = StyleSheet.create({
       width: Dimensions.get("screen").width - 30,
       backgroundColor: "rgba(0,0,0, 0.3)",
       marginVertical: 10,
+    },
+    inputText: {
+      width: Dimensions.get("screen").width - 30,
+      borderWidth: 0.5,
+      padding: 15,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignContent: "center",
+      alignItems: "center",
+      marginVertical: 10
     },
   });  
 
