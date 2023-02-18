@@ -11,6 +11,7 @@ import { TextInput } from "@react-native-material/core";
 import SelectRow from '../../components/SelectRow';
 import { openDatabase } from 'react-native-sqlite-storage';
 import CategoryRow from '../../test_flatlist';
+// import { modifine, setModifine } from '../../CheckModifine';
 const db =  openDatabase({ name: 'data.db',createFromLocation : 1})
 // const Mycaledar = () => {
 //     const [date, setdate] = useState('')
@@ -96,7 +97,7 @@ function AddNewStatus() {
     
                         // setSumM(tp)
                         setListData(temp)
-                        console.log(ListData)
+                        // console.log(ListData)
                     }
                 )
             })
@@ -113,8 +114,7 @@ function AddNewStatus() {
             var newMoney = Money
             if (ThuChi == "CHI"){
                 thu = 0
-                var newMoney = - Money
-                setmoney(newMoney)
+                var newMoney = -Money
             }
             await db.transaction(async (tx)=> {
                 await tx.executeSql(
@@ -124,6 +124,7 @@ function AddNewStatus() {
                 console.log(newID,newMoney,thu,Date, Category)
             })
             Alert.alert('Giao dịch đã được thêm')
+            // setModifine(!modifine)
         }
     }
     return(

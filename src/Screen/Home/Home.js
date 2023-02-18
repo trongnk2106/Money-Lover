@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BarChart } from "react-native-chart-kit";
 import { openDatabase } from 'react-native-sqlite-storage';
 import DisplayRow from '../../components/DisplayRow';
+// import { modifine, setModifine } from '../../CheckModifine';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -18,9 +19,69 @@ function Home ({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [ListData, setListData] = useState([])
   const [sum, setSum] = useState([])
+  // const get = () => {
+  //   db.transaction((tx) =>{
+  //     tx.executeSql(
+  //         "SELECT * FROM GIAODICH",
+  //         [],
+  //         (tx, results) =>{
+  //             var temp = []
+  //             // var sumx = []
+  //             var arr = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+              
+  //             var summ = [{"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0},
+  //             {"THU": 0, "CHI": 0}]
+              
+  //             for (let i = 0; i < results.rows.length; i++){
+  //               var a = results.rows.item(i)
+  //               temp.push(a)
+  //               if ( a.Thu == 1){
+  //                 summ[0]['THU'] = summ[0]['THU'] + a.Money
+  //                 for (let k = 0; k <12; k++){
+  //                     if (a.Date.slice(5,7) == arr[k])
+  //                         summ[k+1]['THU'] = summ[k+1]['THU'] + a.Money
+  //                 }
+  //               }
+  //               else {
+  //                   summ[0]['CHI'] = summ[0]['CHI'] + a.Money
+  //                   for (let k = 0; k <12; k++){
+  //                       // console.log(a)
+  //                       if (a.Date.slice(5,7) == arr[k])
+  //                           summ[k+1]['CHI'] = summ[k+1]['CHI'] + a.Money
+  //                   }
+  //               }
+  //                 // sumx.push(summ)
+  //                 // if (results.rows.item(i).DATE.slice(5,7) == "02")
+  //                 //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
+  //                 // console.log(results.rows.item(i).DATE.slice(5,7))
+  //             }
+  //             // console.log(temp, 1)
 
-  const getDATA = useEffect(() => {
-        console.log(1)
+  //             // setSumM(tp)
+  //             setSum(summ)
+  //             setListData(temp)
+  //             // console.log(temp)
+  //         }
+  //     )
+  // })
+  // }
+  // useEffect(()=>{
+  //   // modifine
+  //   get()
+  // }, [])
+  const getData = useEffect(() => {
+        // console.log(1)
+
         db.transaction((tx) =>{
                 tx.executeSql(
                     "SELECT * FROM GIAODICH",
@@ -75,37 +136,45 @@ function Home ({ navigation }) {
                     }
                 )
             })
-      }, []);  
+      }, [sum[0]]);  
     
     let ShowSum = (item) => {
       // console.log(item)
-      
+
       if (item != null){
           return (item.CHI + item.THU)
       }
       }; 
       const getDataMonth = (summ) =>{
+        // console.log(summ)
         var Month = new Date().getMonth() + 1
-        var lb = ["Thu", "CHI"]  
-        var x = [0, 0, 0, 0, 0,0,0,0,0,0,0,0]
-        if (summ != null){
+        // console.log(summ[Month].THU)
+        // var lb = ["Thu", "CHI"]  
+        x = {
+          labels: ["CHI", "THU"],
+          datasets: [
+            {
+              data: [0, 0]
+            }
+          ]
+        };
+        if (summ[Month] != null){
             // for (i = 1; i <=12; i++){
             //     if (summ[i] != null)
             //         x[i - 1] = summ[i].CHI + summ[i].THU
+            // console.log(summ[Month].CHI)
+            // console.log([-summ[Month].CHI, summ[Month].THU])
+            x.datasets[0].data = [-summ[Month].CHI, summ[Month].THU]
+            // console.log(x.datasets)
+            // console.log(1)
+            const b = summ[Month].CHI
             }
-            return {
-                labels: ["THU", "CHI"],
-                datasets: [
-                  {
-                    data: [123, 123]
-                  }
-                ]
-              };
+        return x
         }
     
     const Show3GD = (ListData) =>{
       // console.log(123)
-      console.log(ListData)
+      // console.log(ListData)
       if (ListData != null){
           // console.log(ListData)
           var data = []
@@ -127,9 +196,9 @@ function Home ({ navigation }) {
           )
       }
       
-  }    
+  } 
+
   return (
-    // {await getDATA},
     <ScrollView style = {{backgroundColor:'#d7dbdb'}}>
       <View style = {styles.head}>
         <View style={{marginTop:15}}>
@@ -161,6 +230,7 @@ function Home ({ navigation }) {
                 <BarChart
                     data= {getDataMonth(sum)}
                     width={Dimensions.get("window").width - 30}
+                    fromZero = {1}
                     height={300}
                     yAxisLabel={"Rs"}
                     chartConfig={{
