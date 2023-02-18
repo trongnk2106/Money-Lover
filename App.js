@@ -3,9 +3,11 @@ import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 're
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome'
 import Home from './src/Screen/Home/Home'
 import TransactionWallet from './src/Screen/Home/TransactionWallet';
-import AddNewStatus from './src/Screen/Create/AddNewStatus'
+// import AddNewStatus from './src/Screen/Create/AddNewStatus'
+import AddNewStatus from './src/Screen/Create/NoteStatus'
 // function HomeScreen() {
 //     return (
 //       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -34,6 +36,7 @@ import AddNewStatus from './src/Screen/Create/AddNewStatus'
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Lap ke hoach!</Text>
+        <Ionicons name = 'home-outline' size = {50}/>
       </View>
     );
   }
@@ -55,8 +58,10 @@ import AddNewStatus from './src/Screen/Create/AddNewStatus'
                   iconName = focused
                     ? 'home'
                     : 'home-outline';
-                } else if (route.name === 'Settings') {
+                } else if (route.name === 'Wallet') {
                   iconName = focused ? 'wallet' : 'wallet-outline';
+                } else if (route.name === 'Add') {
+                  iconName = focused ? 'add-circle' : 'add-circle-outline'
                 }
     
                 // You can return any component that you like here!
@@ -69,7 +74,7 @@ import AddNewStatus from './src/Screen/Create/AddNewStatus'
             <Tab.Screen name="Home" component={Home} options={{headerShown:false}} />
             <Tab.Screen name="Wallet" component={TransactionWallet} options={{headerShown:false}} />
             <Tab.Screen name= "Add" component={AddNewStatus} options={{headerShown:false}} />
-            <Tab.Screen name= "Lap ke hoach" component={Lapkehoach} options={{headerShown:false}} />
+            {/* <Tab.Screen name= "Lap ke hoach" component={Lapkehoach} options={{headerShown:false}} /> */}
           </Tab.Navigator>
         </NavigationContainer>
       );

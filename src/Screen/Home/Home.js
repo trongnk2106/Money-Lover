@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, 
+        Button } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TransactionWallet from './TransactionWallet';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
+const Stack = createNativeStackNavigator();
 // class App extends Component {
-function Home () {
+function Home ({ navigation }) {
   // render() {
   return (
     <ScrollView style = {{backgroundColor:'#d7dbdb'}}>
@@ -30,6 +35,10 @@ function Home () {
       <View style={{flexDirection:'row', marginBottom:15,justifyContent:'space-between'}}>
         <Text style={{ marginLeft:15, fontWeight:'bold'}}> Bao cao chi tieu</Text>
         <Text style={{marginRight:15, fontWeight:'bold', color:'#2cf205'}}> Xem bao cao</Text>
+        {/* <Button
+          title='Xem bao cao'
+          onPress={ () => navigation.navigate("TransactionWallet")}
+        /> */}
       </View>
       <View  style = {styles.body} >
         <View style={{flexDirection: 'row', justifyContent:'space-between'}}>

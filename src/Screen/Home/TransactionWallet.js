@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Alert,
+    FlatList,
   } from "react-native";
 import DisplayRow from "../../components/DisplayRow";
 // import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
@@ -18,14 +19,79 @@ import React , {useState}from "react";
 
 function  TransactionWallet({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
+    // const DATA = [
+    //     {
+    //       id: '1',
+    //       title: '03/2022',
+    //     },
+    //     {
+    //       id: '2',
+    //       title: '04/2022',
+    //     },
+    //     {
+    //       id: '3',
+    //       title: '05/2022',
+    //     },
+    //     {
+    //         id: '4',
+    //         title: '06/2022',
+    //     },
+    //     {
+    //         id: '5',
+    //         title: '07/2022',
+    //     },
+    //     {
+    //         id: '6',
+    //         title: '08/2022',
+    //     },
+    //     {
+    //         id: '7',
+    //         title: '09/2022',
+    //     },
+    //   ];
+
+    // const DATA = [
+    //     {
+    //       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    //       title: 'thang 1',
+    //     },
+    //     {
+    //       id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    //       title: 'thang 2',
+    //     },
+    //     {
+    //       id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    //       title: 'thang 3',
+    //     },
+    //   ];
+      
+    
+    // const Item = ({title}) => {
+    //     <View style= {{width:100, height:50 }}>
+    //         <Text style={{fontSize:15}}>{title}</Text>
+    //     </View>
+    // }
+
     return (
         <View style={styles.container}>
             <ScrollView>
                 {/* summary container */}
                 <View style={[styles.homeDiv, styles.homeSummary]}>
-                <Text style={styles.summHeading}>Name</Text>
-                <Text style={styles.summText}>Total Spent This Week </Text>
+                <Text style={styles.summHeading}>So du</Text>
+                <Text style={{fontSize: 14,fontFamily: "Poppins",textAlign:"center"}}>Total Spent This Week </Text>
+                {/* <View>
+                   
+                    <FlatList
+                        data= {DATA}
+                        horizontal={true}
+                        renderItem={({item}) => <Item title={item.title} />}
+                        keyExtractor={item => item.id}
+
+                    />
+                </View> */}
                 </View>
+                
+                
                 {/* end of summary container */}
                 {/* chart container */}
                 <View style={[styles.homeDiv]}>
@@ -195,6 +261,7 @@ homeDiv: {
     margin: 15,
 },
 summHeading: {
+    textAlign:"center",
     fontSize: 24,
     fontFamily: "PoppinsBold",
 },
