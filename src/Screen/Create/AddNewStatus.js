@@ -1,59 +1,58 @@
 import React, { Component , useState} from 'react'
-// import { TouchableOpacity } from 'react-native';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, TextInput, Button, Alert, 
-    TouchableOpacity, Modal, Pressable} from 'react-native'
-// import CalendarPicker from 'react-native-calendar-picker';
-// import celender from './calender_test';
-// import Mycaledar from './calender_test';
-// import { Mycaledar, date } from './calender_test';
-import AntDesign from "react-native-vector-icons/AntDesign";
+import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert,
+    TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback, Keyboard} from 'react-native'
+
 import { Calendar } from 'react-native-calendars';
-import SelectRow from '../../components/SelectRow';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import AntDesign from "react-native-vector-icons/AntDesign";
+// import { TextInput } from "@react-native-material/core";
+import { TextInput } from "react-native";
+import SelectRow from "../../components/SelectRow";
 
-const Mycaledar = () => {
-    const [date, setdate] = useState('')
-    return (
-      <View>
+// const Mycaledar = () => {
+//     const [date, setdate] = useState('')
+//     return (
+//       <View>
           
-          <Calendar 
+//           <Calendar 
           
           
-              onDayPress={(day) => {
+//               onDayPress={(day) => {
               
-                  setdate(day.dateString)
+//                   setdate(day.dateString)
                   
-              }}
-              onDayLongPress={(day) => console.log('onDayLongPress', day) }
-              onMonthChange={(date) => console.log('onMonthChange', date) }
-              onPressArrowLeft={(goToPreviousMonth) => {
-              console.log('onPressArrowLeft'); goToPreviousMonth();
-              }}
-              onPressArrowRight={(goToNextMonth) => {
-              console.log('onPressArrowRight'); goToNextMonth();
-              }}
-              markedDates={{
-                  [date] : {selected: true, marked: true, selectedColor: '#466A8F'}
-              }}
-          />
+//               }}
+//               onDayLongPress={(day) => console.log('onDayLongPress', day) }
+//               onMonthChange={(date) => console.log('onMonthChange', date) }
+//               onPressArrowLeft={(goToPreviousMonth) => {
+//               console.log('onPressArrowLeft'); goToPreviousMonth();
+//               }}
+//               onPressArrowRight={(goToNextMonth) => {
+//               console.log('onPressArrowRight'); goToNextMonth();
+//               }}
+//               markedDates={{
+//                   [date] : {selected: true, marked: true, selectedColor: '#466A8F'}
+//               }}
+//           />
    
-      </View>
+//       </View>
   
-    );
+//     );
        
-};
+// };
   
 
 
 function AddNewStatus() {
 
     const [sotien, setmoney] = useState('')
+    const [category, setCategory] = useState('')
     const [nhom, setnhom] = useState('')
     const [ghichu, setghichu] = useState('')
     const [ngay, setngay] = useState('')
-    // const [date, setdate] = useState('')
+    const [date, setdate] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
     const [actionTriggered, setActionTriggered] = useState('');
     
@@ -66,6 +65,7 @@ function AddNewStatus() {
         //         <Text style = {{fontSize:20, fontWeight:'bold'}}> Them giao dich</Text>
         //         <Text style = {{fontSize:20, fontWeight:'bold'}}> Luu </Text>
         //     </View>
+
         //     <View  style={{
         //             borderBottomColor: '#575353',
         //             borderBottomWidth: StyleSheet.hairlineWidth
@@ -122,31 +122,25 @@ function AddNewStatus() {
         //                     <Text> Hom nay </Text>
         //                 </Pressable>
         //             </View>
-                    
-                    
-                 
+         
         //         </View>
                 
-            
         //     </ScrollView>
-            
-           
-            
-            
+
         // </View>
+
+
+
         <View style={styles.container}>
             <View style={styles.inputs}>
                 <TouchableOpacity
                     style={styles.selectBtn}
                     onPress={() => {
                         setModalVisible(true);
-                        setActionTriggered('category');
-                        // setFlag(true)
-                    }}
-
+                        setActionTriggered('category');}}
                 >
-                    {/* {console.log(modalVisible, actionTriggered)} */}
-                    <Text style={styles.selectTxt}>Select Category</Text>
+                    {/* <Text style={styles.selectTxt}>Select Category</Text> */}
+                    <Text style={styles.selectTxt}>{category != '' ? category : 'Select Category'}</Text>
                     <AntDesign
                         // style={{ paddingLeft: 10 }}
                         name="down"
@@ -154,7 +148,7 @@ function AddNewStatus() {
                         color="black"
                     />
                 </TouchableOpacity>
-                
+
                 <Modal
                     visible={modalVisible}
                     onRequestClose={() => setModalVisible(!modalVisible)}
@@ -170,39 +164,48 @@ function AddNewStatus() {
                         <View style={styles.divider}></View>
                         <View>
                             <TouchableOpacity onPress = {() => {
-                                setModalVisible(!modalVisible)
-                            }}>
+                                    setModalVisible(!modalVisible)
+                                    setCategory('Rent')
+                                }}>
                             <SelectRow
                                 spendingName="Rent"
                                 uri="https://img.icons8.com/fluency/512/home-page.png"
                             />
                             </TouchableOpacity>
+
                             <TouchableOpacity onPress = {() => {
-                                setModalVisible(!modalVisible)
+                                    setModalVisible(!modalVisible)
+                                    setCategory('Grocery')
                             }}>
                             <SelectRow
                                 spendingName="Grocery"
                                 uri="https://img.icons8.com/fluency/512/ingredients.png"
                             />
                             </TouchableOpacity>
+
                             <TouchableOpacity onPress = {() => {
-                                setModalVisible(!modalVisible)
+                                    setModalVisible(!modalVisible)
+                                    setCategory('Clothes')
                             }}>
                             <SelectRow
                                 spendingName="Clothes"
                                 uri="https://img.icons8.com/plasticine/512/clothes.png"
                             />
                             </TouchableOpacity>
+                            
                             <TouchableOpacity onPress = {() => {
-                                setModalVisible(!modalVisible)
+                                    setModalVisible(!modalVisible)
+                                    setCategory('Shoes')
                             }}>
                             <SelectRow
                                 spendingName="Shoes"
                                 uri="https://img.icons8.com/parakeet/512/shoes.png"
                             />
                             </TouchableOpacity>
+
                             <TouchableOpacity onPress = {() => {
-                                setModalVisible(!modalVisible)
+                                    setModalVisible(!modalVisible)
+                                    setCategory('Electricity')
                             }}>
                             <SelectRow
                                 spendingName="Electricity"
@@ -212,12 +215,39 @@ function AddNewStatus() {
                         </View>
                         </View> 
                     </View> :
+
                     actionTriggered === 'calendar' ?
-                    <View>
-                        <Mycaledar/>
-                            <Pressable onPress = {() => setModalVisible(!modalVisible)}>
-                                <Text>OK</Text>
-                            </Pressable>
+
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                                                  
+                            <Calendar 
+                                onDayPress={(day) => {
+                                    setdate(day.dateString)
+                                }}
+                                onDayLongPress={(day) => console.log('onDayLongPress', day) }
+                                onMonthChange={(date) => console.log('onMonthChange', date) }
+                                onPressArrowLeft={(goToPreviousMonth) => {
+                                console.log('onPressArrowLeft'); goToPreviousMonth();
+                                }}
+                                onPressArrowRight={(goToNextMonth) => {
+                                console.log('onPressArrowRight'); goToNextMonth();
+                                }}
+                                markedDates={{
+                                    [date] : {selected: true, marked: true, selectedColor: '#466A8F'}
+                                }}
+                            />
+
+                            <View style={styles.row}>
+                                <TouchableOpacity 
+                                    style={styles.doneBtn} 
+                                    onPress = {() => setModalVisible(!modalVisible)}>
+                                    <Text style={styles.btnTxt}>Done</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </View>
+
                     </View> : null}
                 </Modal>
 
@@ -226,7 +256,8 @@ function AddNewStatus() {
                     onPress={() => {setModalVisible(true);
                         setActionTriggered('calendar');}}
                 >
-                    <Text style={styles.selectTxt}>Select Date</Text>
+                    {/* <Text style={styles.selectTxt}>Select Date</Text> */}
+                    <Text style={styles.selectTxt}>{date != '' ? date : 'Select Date'}</Text>
                     <AntDesign
                         // style={{ paddingLeft: 10 }}
                         name="calendar"
@@ -236,35 +267,34 @@ function AddNewStatus() {
                 </TouchableOpacity>
 
                 <TextInput
-                    variant="outlined"
-                    label="Amount"
-                    style={{ marginVertical: 10 }}
-                    color="#12B886"
-                    keyboardType="numeric"
+                    style = {styles.inputText}
+                    placeholder="Amount"
+                    onChangeText={sotien => setnhom(setmoney)}
+                    defaultValue={sotien}
                 />
+
                 <TextInput
-                    variant="outlined"
-                    label="Add Note (Optional)"
-                    color="#12B886"
-                    multiline={true}
-                    numberOfLines={10}
-                    style={{ marginVertical: 10 }}
+                    style = {styles.inputText}
+                    placeholder="Add Note"
+                    onChangeText={newghichu => setghichu(newghichu)}
+                    multiline
+                    numberOfLines={4}
+                    defaultValue={ghichu}
                 />
 
             </View>
 
             <View style={styles.row}>
                 <TouchableOpacity style={styles.button}>
-                    <Text style={styles.btnTxt}>Done</Text>
+                    <Text style={styles.btnTxt}>Add</Text>
                 </TouchableOpacity>
             </View>
 
-    </View>
+        </View>
     )
 
 
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -303,6 +333,7 @@ const styles = StyleSheet.create({
       justifyContent: "space-between",
       alignContent: "center",
       alignItems: "center",
+      marginVertical: 10
     },
     selectTxt: {
       fontFamily: "PoppinsBold",
@@ -333,6 +364,26 @@ const styles = StyleSheet.create({
       backgroundColor: "rgba(0,0,0, 0.3)",
       marginVertical: 10,
     },
+    inputText: {
+      width: Dimensions.get("screen").width - 30,
+      borderWidth: 0.5,
+      padding: 15,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignContent: "center",
+      alignItems: "center",
+      marginVertical: 10
+    },
+    doneBtn: {
+      backgroundColor: "#466A8F",
+      padding: 10,
+      width: 100,
+      flexDirection: "row",
+      justifyContent: "center",
+      borderRadius: 6,
+      marginHorizontal: 30
+    },
   });  
+
 
 export default AddNewStatus;

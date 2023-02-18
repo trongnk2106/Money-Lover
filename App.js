@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Home from './src/Screen/Home/Home'
 import TransactionWallet from './src/Screen/Home/TransactionWallet';
 // import AddNewStatus from './src/Screen/Create/AddNewStatus'
-import AddNewStatus from './src/Screen/Create/NoteStatus'
+import AddNewStatus from './src/Screen/Create/AddNewStatus'
 // function HomeScreen() {
 //     return (
 //       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
