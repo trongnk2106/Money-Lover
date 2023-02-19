@@ -22,6 +22,7 @@ function Home ({ navigation }) {
   const [ListData, setListData] = useState([])
   const [sum, setSum] = useState([])
   const [InfoThisMonth, setInfoThisMonth] = useState(0)
+  
   const getData = async()=>{
     let dd = new Date().getDate()
     if (dd < 10)

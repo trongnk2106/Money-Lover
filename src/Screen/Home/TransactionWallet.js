@@ -9,6 +9,7 @@ import {
     TouchableWithoutFeedback,
     Alert,
     FlatList,
+    SafeAreaView,
   } from "react-native";
 
 // import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
@@ -29,6 +30,7 @@ function  TransactionWallet({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [ListData, setListData] = useState([])
     const [sum, setSum] = useState([])
+    const [actionTriggered, setActionTriggered] = useState('')
     const getData = useEffect(() => {
         // console.log(1)
         // setdb(openDatabase({ name: 'data.db', readOnly: false,createFromLocation : 1}))
@@ -148,6 +150,7 @@ function  TransactionWallet({ navigation }) {
             }
             
         }
+        
         const ShowCHI = (ListData) =>{
             // console.log(123)
             if (ListData != null){
@@ -174,8 +177,35 @@ function  TransactionWallet({ navigation }) {
                 )
             }
             
+        }
+        let listItemView = (item) => {
+            return (
+              <View 
+                key={item.user_id}
+                style={{backgroundColor: 'white', padding: 20}}>
+                <DisplayRow data = {item} />
+              </View>
+            );
+          };
+        const show =()=>{
+            return(
+                <SafeAreaView style={{flex: 1}}>
+                <View style={{flex: 1}}>
+                    <View style={{flex: 1}}>
+                        <FlatList
+                            data={ListData}
+                            // ItemSeparatorComponent={listViewItemSeparator}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({item}) =>listItemView(item)}
+                    />
+            </View>
+            
+          </View>
+        </SafeAreaView>
+            )
         }   
     return (
+        
         <View style={styles.container}>
             <ScrollView>
                 {/* summary container */}
@@ -232,8 +262,19 @@ function  TransactionWallet({ navigation }) {
 
                 <View style={styles.row}>
                     <Text style={styles.rowHeading}>Recent Income</Text>
-                    <TouchableOpacity>
+                    {/* <TouchableOpacity>
                     <Text style={styles.summText}>View All</Text>
+                    </TouchableOpacity> */}
+                    <TouchableOpacity
+                        style={styles.selectBtn}
+                        onPress={() => {
+                            setModalVisible(true);
+                            setActionTriggered('ShowAll');}}
+                    >
+
+                        <Text style={styles.selectTxt}>
+                            View all
+                        </Text>
                     </TouchableOpacity>
                 </View>
                 {ShowTHU(ListData)}
@@ -243,24 +284,48 @@ function  TransactionWallet({ navigation }) {
                     <DisplayRow />
                 </View> */}
                 </View>
-                {/* end of spending container */}
-                {/* earning container */}
-                <View style={[styles.homeDiv, styles.homeSpending]}>
-                {/* header row */}
-                <View style={styles.row}>
+                <Modal
+                        visible={modalVisible}
+                        onRequestClose={() => setModalVisible(!modalVisible)}
+                        transparent={true}
+                    >
+                        {actionTriggered === 'ShowAll' ?
+
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                            <Text style={styles.selectHeading}>
+                                BÁO CÁO GIAO DỊCH THÁNG
+                            </Text>
+                            <View style={styles.divider}></View>
+
+                            <View style={{height: 400}}>
+
+                                    {show()}
+                                    <TouchableOpacity onPress = {() => {
+                                        setModalVisible(!modalVisible)
+                                        
+                                    }}>
+                                    <Text style={{fontFamily:"PoppinsMedium", fontSize:14}}>Done</Text>
+                                    </TouchableOpacity>
+                                    
+
+                                
+                            </View>
+
+
+
+                            </View> 
+                        </View> : null}
+                    </Modal>
+                {/* <View style={[styles.homeDiv, styles.homeSpending]}> */}
+                {/* <View style={styles.row}>
                     <Text style={styles.rowHeading}>Recent Expenses</Text>
                     <TouchableOpacity>
                     <Text style={styles.summText}>View All</Text>
                     </TouchableOpacity>
-                </View>
-                {/* contents row */}
-                {ShowCHI(ListData)}
-                {/* <View>
-                    <DisplayRow />
-                    <DisplayRow />
-                    <DisplayRow />
                 </View> */}
-                </View>
+                {/* {ShowCHI(ListData)} */}
+                {/* </View> */}
                 {/* end of earning container      */}
             </ScrollView>
             
@@ -328,6 +393,19 @@ homeEarnings: {
     padding: 10,
     borderRadius: 8,
 },
+selectHeading: {
+    textAlign: "center",
+    fontFamily: "PoppinsBold",
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+centeredView: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    alignContent: "center",
+    backgroundColor: "rgba(0,0,0, 0.3)",
+  },
 row: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -339,6 +417,13 @@ rowHeading: {
     fontFamily: "PoppinsBold",
     fontWeight: "bold"
 },
+modalView: {
+    backgroundColor: "#fff",
+    width: Dimensions.get("screen").width,
+    padding: 20,
+    borderTopRightRadius: 6,
+    borderTopLeftRadius: 6,
+  },
 footer: {
     flex: 0,
     justifyContent: "flex-end",
