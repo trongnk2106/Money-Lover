@@ -116,7 +116,7 @@ function Home ({ navigation }) {
     <ScrollView style = {{backgroundColor:'#d7dbdb'}}>
       <View style = {styles.head}>
         <View style={{marginTop:15}}>
-          <Text style = {{flexDirection:'row', margin: 10, fontSize: 30, fontWeight:'bold'}}> {ShowSum(sum[0])}</Text>
+          <Text style = {{flexDirection:'row', margin: 10, fontSize: 30, fontWeight:'bold'}}> {ShowSum(sum[0])} VNĐ </Text>
           <Text style = {{flexDirection:'row', marginLeft : 10, fontSize: 15}}> Tổng số dư</Text>
         </View>
         <View style={{marginTop:25,marginLeft:15, marginRight:15 , height: 120, backgroundColor: 'white', borderRadius: 10}}>
@@ -127,7 +127,7 @@ function Home ({ navigation }) {
           <View style={{backgroundColor:'#90968f', height:1, marginTop:15, marginLeft:5, marginRight:5}}/>
           <View style={{flexDirection:'row', marginTop:15, fontSize:15, fontWeight:'bold', justifyContent:'space-between'}}>
             <Text style ={{marginLeft:10,fontWeight:'bold'}}> Tiền mặt</Text>
-            <Text style ={{marginRight:5, fontWeight:'bold'}}> {ShowSum(sum[0])}</Text>
+            <Text style ={{marginRight:5, fontWeight:'bold'}}> {ShowSum(sum[0])} VNĐ</Text>
           </View>
         </View>
       </View>
