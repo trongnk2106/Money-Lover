@@ -218,56 +218,61 @@ function Home ({ navigation }) {
   } 
 
   return (
-    <ScrollView style = {{backgroundColor:'#d7dbdb'}}>
+    <ScrollView style={{backgroundColor: '#ffffff'}}>
       <View style = {styles.head}>
+
         <View style={{marginTop:15}}>
           <Text style = {{flexDirection:'row', margin: 10, fontSize: 30, fontWeight:'bold'}}> {ShowSum(sum[0])}</Text>
           <Text style = {{flexDirection:'row', marginLeft : 10, fontSize: 15}}> Tổng số dư</Text>
         </View>
-        <View style={{marginTop:25,marginLeft:15, marginRight:15 , height: 120, backgroundColor: 'white', borderRadius: 10}}>
-          <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-            <Text style={{marginLeft: 10, marginTop:15, fontWeight:'bold', fontSize:15}}> Ví của tôi</Text>
-            {/* <Text style = {{color: '#2cf205', marginTop:15, marginRight:15, fontWeight:'bold', fontSize:15}}> Xem tat ca</Text> */}
-          </View>
-          <View style={{backgroundColor:'#90968f', height:1, marginTop:15, marginLeft:5, marginRight:5}}/>
-          <View style={{flexDirection:'row', marginTop:15, fontSize:15, fontWeight:'bold', justifyContent:'space-between'}}>
-            <Text style ={{marginLeft:10,fontWeight:'bold'}}> Tiền mặt</Text>
-            <Text style ={{marginRight:5, fontWeight:'bold'}}> {ShowSum(sum[0])}</Text>
+
+        {/* <View style={{marginTop:25,marginLeft:15, marginRight:15 , height: 120, backgroundColor: 'white', borderRadius: 10}}> */}
+        <View>
+          <View style={styles.borderSection}>
+            <Text style={{marginLeft: 10, marginTop:10, fontWeight:'bold', fontSize:15}}> Ví của tôi</Text>
+            <View style={{backgroundColor:'#90968f', height:1, marginTop:15, marginLeft:5, marginRight:5}}/>
+            <View style={{flexDirection:'row', marginTop:15, fontSize:15, fontWeight:'bold', justifyContent:'space-between'}}>
+              <Text style ={{marginLeft:10,fontWeight:'bold',marginBottom:10}}> Tiền mặt</Text>
+              <Text style ={{marginRight:5, fontWeight:'bold'}}> {ShowSum(sum[0])}</Text>
+            </View>
           </View>
         </View>
       </View>
-      <View style={{flexDirection:'row', marginBottom:15,justifyContent:'space-between'}}>
-        <Text style={{ marginLeft:15, fontWeight:'bold'}}> Báo cáo chi tiêu</Text>
-        <Text style={{marginRight:15, fontWeight:'bold', color:'#2cf205'}}> Xem bao cao</Text>
 
-        {/* <Button
-          title='Xem bao cao'
-          onPress={ () => navigation.navigate("TransactionWallet")}
-        /> */}
+      <View style={styles.borderSection}>
+        <View style={{flexDirection:'row', marginBottom:15,justifyContent:'space-between'}}>
+          <Text style={{ marginLeft:15, fontWeight:'bold'}}> Báo cáo chi tiêu</Text>
+          <Text style={{marginRight:15, fontWeight:'bold', color:'#2cf205'}}> Xem bao cao</Text>
+
+          {/* <Button
+            title='Xem bao cao'
+            onPress={ () => navigation.navigate("TransactionWallet")}
+          /> */}
+        </View>
+        <View>
+          <BarChart
+              data= {getDataMonth(sum)}
+              width={Dimensions.get("window").width - 30}
+              fromZero = {1}
+              height={300}
+              yAxisLabel={"Rs"}
+              chartConfig={{
+              backgroundColor: "#1cc910",
+              backgroundGradientFrom: "#eff3ff",
+              backgroundGradientTo: "#efefef",
+              decimalPlaces: 2,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              style: {
+                  borderRadius: 16,
+              },
+              }}
+              style={{
+              marginVertical: 8,
+              borderRadius: 16,
+              }}
+          />
+        </View>
       </View>
-      <View style={styles.body}>
-                <BarChart
-                    data= {getDataMonth(sum)}
-                    width={Dimensions.get("window").width - 30}
-                    fromZero = {1}
-                    height={300}
-                    yAxisLabel={"Rs"}
-                    chartConfig={{
-                    backgroundColor: "#1cc910",
-                    backgroundGradientFrom: "#eff3ff",
-                    backgroundGradientTo: "#efefef",
-                    decimalPlaces: 2,
-                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                        borderRadius: 16,
-                    },
-                    }}
-                    style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
-                    }}
-                />
-                </View>
 
       <View style={{flexDirection:'row', marginTop:20, marginBottom:20, justifyContent:'space-between'}}>
         <Text style={{marginLeft:10, fontWeight:'bold', fontSize:15}}> Giao dich gan day </Text>
@@ -347,6 +352,14 @@ const styles = StyleSheet.create({
     marginRight:15,
     marginBottom:15,
     borderRadius:10
+  },
+  borderSection: {
+    borderColor: "#12B886",
+    borderWidth: 1,
+    width: Dimensions.get("screen").width - 30,
+    padding: 10,
+    borderRadius: 8,
+    margin: 15
   },
 
 })

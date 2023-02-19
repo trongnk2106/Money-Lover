@@ -129,7 +129,6 @@ function  TransactionWallet({ navigation }) {
                             "Date": ListData[i].Date, 
                             "Money": ListData[i].Money,
                             "Category": ListData[i].Category,
-                            "Image": ListData[i].Image
                         }
                         dataThu.push(x)
                         k = k + 1 

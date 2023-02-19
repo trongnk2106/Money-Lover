@@ -1,5 +1,5 @@
 import React, { Component , useState, useEffect} from 'react'
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert, SectionList, FlatList,
+import { Image, Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert, SectionList, FlatList,
     TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback, Keyboard, TextInput } from 'react-native'
 
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -7,6 +7,7 @@ import SelectRow from '../../components/SelectRow';
 import { openDatabase } from 'react-native-sqlite-storage';
 import CategoryRow from '../../test_flatlist';
 import { Agenda, Calendar } from 'react-native-calendars';
+import { Icons } from '../../components/Icons'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -24,6 +25,35 @@ function AddNewStatus() {
     const [actionTriggered, setActionTriggered] = useState('');
     
     const [ListData, setListData] = useState([])
+
+    // const [Icon, setIcon] = useState([])
+    // const Icons = {
+    //     Rent: 'https://img.icons8.com/fluency/512/home-page.png',
+    //     Travel: 'ttps://img.icons8.com/external-flaticons-flat-flat-icons/2x/external-vehicles-automotive-dealership-flaticons-flat-flat-icons-5.png',
+    //     Food: 'https://img.icons8.com/plasticine/2x/food.png',
+    //     Bill: 'https://img.icons8.com/fluency/512/paid-bill.png',
+    //     Medical: 'https://img.icons8.com/fluency/2x/hospital.png',
+    //     Education: 'https://img.icons8.com/fluency/2x/graduation-cap.png',
+    //     Grocery: 'https://img.icons8.com/fluency/512/ingredients.png',
+    //     Entertainment: 'https://img.icons8.com/fluency/2x/ps-controller.png',
+    //     Shopping: 'https://img.icons8.com/fluency/2x/add-shopping-cart.png',
+    //     Salary: 'https://img.icons8.com/fluency/2x/money.png',
+    //     Other_Income: 'https://img.icons8.com/fluency/2x/growing-money.png'
+    // }
+
+    // const [Icons, setIcons] = useState([
+    //     { id: 'rent', icon: 'https://img.icons8.com/fluency/512/home-page.png'},
+    //     { id: 'travel', icon: 'ttps://img.icons8.com/external-flaticons-flat-flat-icons/2x/external-vehicles-automotive-dealership-flaticons-flat-flat-icons-5.png'},
+    //     { id: 'food', icon: 'https://img.icons8.com/plasticine/2x/food.png'},
+    //     { id: 'bill', icon: 'https://img.icons8.com/fluency/512/paid-bill.png'},
+    //     { id: 'medical', icon: 'https://img.icons8.com/fluency/2x/hospital.png'},
+    //     { id: 'education', icon: 'https://img.icons8.com/fluency/2x/graduation-cap.png'},
+    //     { id: 'grocery', icon: 'https://img.icons8.com/fluency/512/ingredients.png'},
+    //     { id: 'entertainment', icon: 'https://img.icons8.com/fluency/2x/ps-controller.png'},
+    //     { id: 'shopping', icon: 'https://img.icons8.com/fluency/2x/add-shopping-cart.png'},
+    //     { id: 'salary', icon: 'https://img.icons8.com/fluency/2x/money.png'},
+    //     { id: 'other_income', icon: 'https://img.icons8.com/fluency/2x/growing-money.png'}
+    // ])
     
     useEffect(() => {
         var newID = 0
@@ -164,7 +194,7 @@ function AddNewStatus() {
                             </Text>
                             <View style={styles.divider}></View>
 
-                            <View style={{height: 400}}>
+                            <View style={{height: 735}}>
                                 <ScrollView contentContainerStyle={styles.contentContainer}>
                                     
                                     <Text style={styles.sectionBar}>Monthly Expenses</Text>
@@ -177,7 +207,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Rent"
-                                        uri="https://img.icons8.com/fluency/512/home-page.png"
+                                        uri={Icons.Rent}
                                     />
                                     </TouchableOpacity>
 
@@ -188,7 +218,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Travel"
-                                        uri="https://img.icons8.com/external-flaticons-flat-flat-icons/2x/external-vehicles-automotive-dealership-flaticons-flat-flat-icons-5.png"
+                                        uri={Icons.Travel}
                                     />
                                     </TouchableOpacity>
 
@@ -200,7 +230,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Food"
-                                        uri="https://img.icons8.com/plasticine/2x/food.png"
+                                        uri={Icons.Food}
                                     />
                                     </TouchableOpacity>
 
@@ -212,7 +242,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Bill"
-                                        uri="https://img.icons8.com/fluency/512/paid-bill.png"
+                                        uri={Icons.Bill}
                                     />
                                     </TouchableOpacity>
 
@@ -226,7 +256,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Medical"
-                                        uri="https://img.icons8.com/fluency/2x/hospital.png"
+                                        uri={Icons.Medical}
                                     />
                                     </TouchableOpacity>
 
@@ -238,7 +268,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Education"
-                                        uri="https://img.icons8.com/fluency/2x/graduation-cap.png"
+                                        uri={Icons.Education}
                                     />
                                     </TouchableOpacity>
 
@@ -250,7 +280,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Grocery"
-                                        uri="https://img.icons8.com/fluency/512/ingredients.png"
+                                        uri={Icons.Grocery}
                                     />
                                     </TouchableOpacity>
 
@@ -264,7 +294,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Entertainment"
-                                        uri="https://img.icons8.com/fluency/2x/ps-controller.png"
+                                        uri={Icons.Entertainment}
                                     />
                                     </TouchableOpacity>
 
@@ -276,7 +306,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Shopping"
-                                        uri="https://img.icons8.com/fluency/2x/add-shopping-cart.png"
+                                        uri={Icons.Shopping}
                                     />
                                     </TouchableOpacity>
 
@@ -290,7 +320,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Salary"
-                                        uri="https://img.icons8.com/fluency/2x/money.png"
+                                        uri={Icons.Salary}
                                     />
                                     </TouchableOpacity>
 
@@ -302,7 +332,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Other Income"
-                                        uri="https://img.icons8.com/fluency/2x/growing-money.png"
+                                        uri={Icons.Other_Income}
                                     />
                                     </TouchableOpacity>
 
@@ -389,7 +419,6 @@ function AddNewStatus() {
                 <View style={styles.row}>
                     <Button
                         title="ADD"
-                        style = {styles.button}
                         onPress={() => {
                             setData()
                             // Alert.alert('Button with adjusted color pressed')
@@ -397,6 +426,8 @@ function AddNewStatus() {
                         }
                 />
                 </View>
+
+
 
             </View>
         </TouchableWithoutFeedback>
@@ -416,7 +447,7 @@ const styles = StyleSheet.create({
     row: {
       flexDirection: "row",
       justifyContent: "flex-end",
-      width: Dimensions.get("screen").width - 10,
+      width: Dimensions.get("screen").width - 18,
       marginTop: 10,
     },
     button: {
