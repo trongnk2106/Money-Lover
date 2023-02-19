@@ -11,6 +11,7 @@ import {
     FlatList,
   } from "react-native";
 
+// import { AntDesign, MaterialCommunityIcons } from "react-native-vector-icons";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { BarChart } from "react-native-chart-kit";
@@ -29,6 +30,8 @@ function  TransactionWallet({ navigation }) {
     const [ListData, setListData] = useState([])
     const [sum, setSum] = useState([])
     const getData = useEffect(() => {
+        // console.log(1)
+        // setdb(openDatabase({ name: 'data.db', readOnly: false,createFromLocation : 1}))
         db.transaction((tx) =>{
                 tx.executeSql(
                     "SELECT * FROM GIAODICH",
@@ -70,12 +73,19 @@ function  TransactionWallet({ navigation }) {
                                       summ[k+1]['CHI'] = summ[k+1]['CHI'] + a.Money
                               }
                           }
+                            // sumx.push(summ)
+                            // if (results.rows.item(i).DATE.slice(5,7) == "02")
+                            //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
+                            // console.log(results.rows.item(i).DATE.slice(5,7))
                         }
+                        // console.log(temp, 1)
+    
+                        // setSumM(tp)
                         
                         setSum(summ)
-                        
+                        // console.log(sum)
                         setListData(temp)
-                        
+                        // console.log(temp)
                     }
                 )
             })
@@ -107,9 +117,9 @@ function  TransactionWallet({ navigation }) {
             }
         }
         const ShowTHU = (ListData) =>{
-            
+            // console.log(123)
             if (ListData != null){
-                
+                // console.log(ListData)
                 var dataThu = []
                 var k = 0
                 for (let  i = ListData.length - 1; i >= 0; i-- ){
@@ -167,9 +177,20 @@ function  TransactionWallet({ navigation }) {
     return (
         <View style={styles.container}>
             <ScrollView>
+                {/* summary container */}
                 <View style={[styles.homeDiv, styles.homeSummary]}>
                 <Text style={styles.summHeading}>Số dư</Text>
                 <Text style={{fontSize: 14,fontFamily: "Poppins",textAlign:"center"}}>{ShowSum(sum[0])} </Text>
+                {/* <View>
+                   
+                    <FlatList
+                        data= {DATA}
+                        horizontal={true}
+                        renderItem={({item}) => <Item title={item.title} />}
+                        keyExtractor={item => item.id}
+
+                    />
+                </View> */}
                 </View>
                 
                 
