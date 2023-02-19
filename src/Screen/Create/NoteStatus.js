@@ -1,5 +1,5 @@
 import React, { Component , useState, useEffect} from 'react'
-import { Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert, SectionList, FlatList,
+import { Image, Text, View, StyleSheet, SafeAreaView, ScrollView, Dimensions, Button, Alert, SectionList, FlatList,
     TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback, Keyboard, TextInput } from 'react-native'
 
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -7,6 +7,7 @@ import SelectRow from '../../components/SelectRow';
 import { openDatabase } from 'react-native-sqlite-storage';
 // import CategoryRow from '../../test_flatlist';
 import { Agenda, Calendar } from 'react-native-calendars';
+import { Icons } from '../../components/Icons'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -112,43 +113,6 @@ function AddNewStatus() {
                             color="black"
                         />
                     </TouchableOpacity>
-
-
-                    {/* <OptionSwitch
-                        styles={{
-                            item: {
-                                width: 100,
-                                height: 24,
-                                borderRadius: 12,
-                                marginHorizontal: 8,
-                                alignItems: 'center',
-                            },
-                            selectedItem: {
-                                width: 100,
-                                height: 24,
-                                borderRadius: 12,
-                                marginHorizontal: 8,
-                                backgroundColor: '#12B886',
-                                alignItems: 'center',
-                            },
-                        }}
-                        onChange={(value) => {
-                            if (value == 'income')
-                                setThuChi("THU")
-                            else
-                                setThuChi("CHI")
-                        }}
-                        options={[
-                            {
-                                label: 'Income',
-                                value: 'income',
-                                isDefault: true
-                            }, {
-                                label: 'Expense',
-                                value: 'expense'
-                            }
-                        ]}
-                    /> */}
                     
                     <Modal
                         visible={modalVisible}
@@ -164,7 +128,7 @@ function AddNewStatus() {
                             </Text>
                             <View style={styles.divider}></View>
 
-                            <View style={{height: 400}}>
+                            <View style={{height: 735}}>
                                 <ScrollView contentContainerStyle={styles.contentContainer}>
                                     
                                     <Text style={styles.sectionBar}>Monthly Expenses</Text>
@@ -177,7 +141,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Rent"
-                                        uri="https://img.icons8.com/fluency/512/home-page.png"
+                                        uri={Icons.Rent}
                                     />
                                     </TouchableOpacity>
 
@@ -188,7 +152,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Travel"
-                                        uri="https://img.icons8.com/external-flaticons-flat-flat-icons/2x/external-vehicles-automotive-dealership-flaticons-flat-flat-icons-5.png"
+                                        uri={Icons.Travel}
                                     />
                                     </TouchableOpacity>
 
@@ -200,7 +164,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Food"
-                                        uri="https://img.icons8.com/plasticine/2x/food.png"
+                                        uri={Icons.Food}
                                     />
                                     </TouchableOpacity>
 
@@ -212,7 +176,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Bill"
-                                        uri="https://img.icons8.com/fluency/512/paid-bill.png"
+                                        uri={Icons.Bill}
                                     />
                                     </TouchableOpacity>
 
@@ -226,7 +190,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Medical"
-                                        uri="https://img.icons8.com/fluency/2x/hospital.png"
+                                        uri={Icons.Medical}
                                     />
                                     </TouchableOpacity>
 
@@ -238,7 +202,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Education"
-                                        uri="https://img.icons8.com/fluency/2x/graduation-cap.png"
+                                        uri={Icons.Education}
                                     />
                                     </TouchableOpacity>
 
@@ -250,7 +214,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Grocery"
-                                        uri="https://img.icons8.com/fluency/512/ingredients.png"
+                                        uri={Icons.Grocery}
                                     />
                                     </TouchableOpacity>
 
@@ -264,7 +228,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Entertainment"
-                                        uri="https://img.icons8.com/fluency/2x/ps-controller.png"
+                                        uri={Icons.Entertainment}
                                     />
                                     </TouchableOpacity>
 
@@ -276,7 +240,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Shopping"
-                                        uri="https://img.icons8.com/fluency/2x/add-shopping-cart.png"
+                                        uri={Icons.Shopping}
                                     />
                                     </TouchableOpacity>
 
@@ -290,7 +254,7 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Salary"
-                                        uri="https://img.icons8.com/fluency/2x/money.png"
+                                        uri={Icons.Salary}
                                     />
                                     </TouchableOpacity>
 
@@ -302,11 +266,9 @@ function AddNewStatus() {
                                     }}>
                                     <SelectRow
                                         spendingName="Other Income"
-                                        uri="https://img.icons8.com/fluency/2x/growing-money.png"
+                                        uri={Icons.Other_Income}
                                     />
                                     </TouchableOpacity>
-
-
 
                                 </ScrollView>
                             </View>
@@ -389,7 +351,6 @@ function AddNewStatus() {
                 <View style={styles.row}>
                     <Button
                         title="ADD"
-                        style = {styles.button}
                         onPress={() => {
                             setData()
                             // Alert.alert('Button with adjusted color pressed')
@@ -416,7 +377,7 @@ const styles = StyleSheet.create({
     row: {
       flexDirection: "row",
       justifyContent: "flex-end",
-      width: Dimensions.get("screen").width - 10,
+      width: Dimensions.get("screen").width - 18,
       marginTop: 10,
     },
     button: {

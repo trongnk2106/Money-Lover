@@ -29,7 +29,7 @@ import ReminderApp from './src/Screen/Home/Remid';
                 } else if (route.name === 'Add') {
                   iconName = focused ? 'add-circle' : 'add-circle-outline'
                 } else if (route.name === 'Schedule') {
-                    iconName = focused ? 'add-circle' : 'add-circle-outline'
+                    iconName = focused ? 'alarm' : 'alarm-outline'
                   }
                
     

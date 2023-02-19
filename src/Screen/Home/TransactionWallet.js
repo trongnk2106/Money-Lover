@@ -131,7 +131,6 @@ function  TransactionWallet({ navigation }) {
                             "Date": ListData[i].Date, 
                             "Money": ListData[i].Money,
                             "Category": ListData[i].Category,
-                            "Image": ListData[i].Image
                         }
                         dataThu.push(x)
                         k = k + 1 
@@ -231,8 +230,8 @@ function  TransactionWallet({ navigation }) {
             <ScrollView>
                 {/* summary container */}
                 <View style={[styles.homeDiv, styles.homeSummary]}>
-                <Text style={styles.summHeading}>Số dư</Text>
-                <Text style={{fontSize: 14,fontFamily: "Poppins",textAlign:"center"}}>{ShowSum(sum[0])} </Text>
+                <Text style={styles.summHeading}>SỐ DƯ</Text>
+                <Text style={{fontSize: 20,fontFamily: "Poppins",textAlign:"center"}}>{ShowSum(sum[0])} </Text>
                 {/* <View>
                    
                     <FlatList
@@ -391,9 +390,11 @@ homeDiv: {
     margin: 15,
 },
 summHeading: {
+    marginTop: 15,
     textAlign:"center",
     fontSize: 24,
     fontFamily: "PoppinsBold",
+    fontWeight: 'bold'
 },
 summText: {
     fontSize: 14,

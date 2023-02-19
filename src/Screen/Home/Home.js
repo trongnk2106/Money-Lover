@@ -113,60 +113,65 @@ function Home ({ navigation }) {
   } 
 
   return (
-    <ScrollView style = {{backgroundColor:'#d7dbdb'}}>
+    <ScrollView style = {{backgroundColor:'#ffffff'}}>
       <View style = {styles.head}>
-        <View style={{marginTop:15}}>
-          <Text style = {{flexDirection:'row', margin: 10, fontSize: 30, fontWeight:'bold'}}> {ShowSum(sum[0])} VNĐ </Text>
-          <Text style = {{flexDirection:'row', marginLeft : 10, fontSize: 15}}> Tổng số dư</Text>
+
+        <View style={{marginTop: 40}}>
+          <Text style = {{flexDirection:'row', marginLeft: 15, fontSize: 30, fontWeight:'bold'}}> {ShowSum(sum[0])} VNĐ </Text>
+          <Text style = {{flexDirection:'row', marginLeft : 20, fontSize: 15}}> Tổng số dư</Text>
         </View>
-        <View style={{marginTop:25,marginLeft:15, marginRight:15 , height: 120, backgroundColor: 'white', borderRadius: 10}}>
+
+        <View style={{borderColor: "#12B886", borderWidth: 1,marginTop:25,marginLeft:15, marginRight:15 , height: 120, backgroundColor: 'white', borderRadius: 10}}>
           <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
-            <Text style={{marginLeft: 10, marginTop:15, fontWeight:'bold', fontSize:15}}> Ví của tôi</Text>
+            <Text style={{marginLeft: 15, marginTop:15, fontWeight:'bold', fontSize:15}}> Ví của tôi</Text>
             {/* <Text style = {{color: '#2cf205', marginTop:15, marginRight:15, fontWeight:'bold', fontSize:15}}> Xem tat ca</Text> */}
           </View>
-          <View style={{backgroundColor:'#90968f', height:1, marginTop:15, marginLeft:5, marginRight:5}}/>
+          <View style={{backgroundColor:'#90968f', height:1, marginTop:15, marginLeft:15, marginRight:15}}/>
           <View style={{flexDirection:'row', marginTop:15, fontSize:15, fontWeight:'bold', justifyContent:'space-between'}}>
-            <Text style ={{marginLeft:10,fontWeight:'bold'}}> Tiền mặt</Text>
-            <Text style ={{marginRight:5, fontWeight:'bold'}}> {ShowSum(sum[0])} VNĐ</Text>
+            <Text style ={{marginLeft:15,fontWeight:'bold'}}> Tiền mặt</Text>
+            <Text style ={{marginRight:15, fontWeight:'bold'}}> {ShowSum(sum[0])} VNĐ</Text>
           </View>
         </View>
       </View>
-      <View style={{flexDirection:'row', marginBottom:15,justifyContent:'space-between'}}>
-        <Text style={{ marginLeft:15, fontWeight:'bold'}}> Báo cáo chi tiêu tháng này</Text>
-        <Text style={{marginRight:15, fontWeight:'bold', color:'#2cf205'}}> Xem bao cao</Text>
-
-        {/* <Button
-          title='Xem bao cao'
-          onPress={ () => navigation.navigate("TransactionWallet")}
-        /> */}
+      
+      <View style={{borderColor: "#12B886", borderWidth: 1, borderRadius:8, width: Dimensions.get("screen").width - 30, margin: 14, paddingTop: 15}}>
+        <View style={{flexDirection:'row', marginBottom:15,justifyContent:'space-between'}}>
+          <Text style={{ marginLeft:15, fontWeight:'bold'}}> Báo cáo chi tiêu tháng này</Text>
+          <Text style={{marginRight:15, color:'#12B886'}}> Xem báo cáo</Text>
+          {/* <Button
+            title='Xem bao cao'
+            onPress={ () => navigation.navigate("TransactionWallet")}
+          /> */}
+        </View>
+        <View style={styles.body}>
+                  <BarChart
+                      data= {getDataMonth(sum[1])}
+                      width={Dimensions.get("window").width - 30}
+                      fromZero = {1}
+                      height={300}
+                      yAxisLabel={"Rs"}
+                      chartConfig={{
+                      backgroundColor: "#1cc910",
+                      backgroundGradientFrom: "#eff3ff",
+                      backgroundGradientTo: "#efefef",
+                      decimalPlaces: 2,
+                      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                      style: {
+                          borderRadius: 16,
+                      },
+                      }}
+                      style={{
+                      marginVertical: 8,
+                      borderRadius: 16,
+                      }}
+                  />
+        </View>
       </View>
-      <View style={styles.body}>
-                <BarChart
-                    data= {getDataMonth(sum[1])}
-                    width={Dimensions.get("window").width - 30}
-                    fromZero = {1}
-                    height={300}
-                    yAxisLabel={"Rs"}
-                    chartConfig={{
-                    backgroundColor: "#1cc910",
-                    backgroundGradientFrom: "#eff3ff",
-                    backgroundGradientTo: "#efefef",
-                    decimalPlaces: 2,
-                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                        borderRadius: 16,
-                    },
-                    }}
-                    style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
-                    }}
-                />
-                </View>
 
-      <View style={{flexDirection:'row', marginTop:20, marginBottom:20, justifyContent:'space-between'}}>
-        <Text style={{marginLeft:10, fontWeight:'bold', fontSize:15}}> Giao dich gan day </Text>
-        <Text style ={{marginRight:15, fontWeight:'bold', fontSize:15, color:'#2cf205'}}> Xem tat ca</Text>
+    <View style={{borderColor: "#12B886", borderWidth: 1, borderRadius:8, width: Dimensions.get("screen").width - 30, margin: 14}}>
+      <View style={{flexDirection:'row', marginTop:10, marginBottom:20, justifyContent:'space-between'}}>
+        <Text style={{marginLeft:10, fontWeight:'bold', fontSize:15}}> Giao dịch gần đây </Text>
+        <Text style ={{marginRight:15, fontSize:15, color:'#12B886'}}> Xem tất cả</Text>
       </View>
       <View  style = {styles.earlyfooter} >
         {Show3GD(ListData)}
@@ -196,14 +201,18 @@ function Home ({ navigation }) {
                 </View>
                 </View> */}          
         {/* </View> */}
+        </View>
+      </View>
+      
+      <View style={{borderColor: "#12B886", borderWidth: 1, borderRadius:8, width: Dimensions.get("screen").width - 30, margin: 14}}>
+        <View>
+          <Text style ={{fontWeight:'bold', margin:10}}> Kế hoạch cá nhân</Text>
+        </View>
+        <View style = {styles.footer} >
+          <Text style={{margin:5}}> Kế hoạch giúp bạn ghi chép giao dịch hiệu quả. </Text>
+        </View>
+      </View>
 
-      </View>
-      <View>
-        <Text style ={{fontWeight:'bold', margin:10}}> Ke hoach ca nhan</Text>
-      </View>
-      <View  style = {styles.footer} >
-        <Text style={{margin:10}}> Ke hoach giup ban ghi chep giao dich hieu qua </Text>
-      </View>
     </ScrollView>
   )
   // }
@@ -219,17 +228,17 @@ const styles = StyleSheet.create({
   body:{
     width: windowWidth * 0.93,
     height: windowHeight * 0.4,
-    backgroundColor: 'white',
-    marginRight:15,
-    marginLeft:15,
+    // backgroundColor: 'white',
+    // marginRight:15,
+    // marginLeft:15,
     borderRadius:10,
   },
   earlyfooter:{
     width: windowWidth * 0.93,
-    height: windowHeight * 0.2,
-    backgroundColor: 'white',
-    marginLeft:15,
-    marginRight:15,
+    height: windowHeight * 0.35,
+    // backgroundColor: 'white',
+    // marginLeft:15,
+    // marginRight:15,
     borderRadius:10,
     // justifyContent:'center',
     // textAlign:'center'
@@ -237,13 +246,23 @@ const styles = StyleSheet.create({
   footer:{
     width: windowWidth * 0.93,
     height: windowHeight * 0.2,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     marginLeft:15,
     marginRight:15,
     marginBottom:15,
     borderRadius:10
   },
-
+  borderSection: {
+    borderColor: "#12B886",
+    borderWidth: 1,
+    width: Dimensions.get("screen").width - 30,
+    padding: 10,
+    borderRadius: 8,
+  },
+  sectionDiv: 
+  {
+    margin: 14,
+  }
 })
 
 

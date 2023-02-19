@@ -1,53 +1,33 @@
 import { StyleSheet, Text, View, Image } from "react-native";
+import { Icons, getIcon } from './Icons'
+
+
 
 export default function DisplayRow(props) {
-  // console.log(props)
   const ViewThu = (props) => {
     if (props.data != null)
       console.log(props.data)
-  //   var data = [] 
-  //   for(let i = 0; i < props.length; i++){
-  //     if (props[i].Thu == 1){
-  //       var x = {"Date": props[i].Date, "Money": props[i].Money}
-  //       data.push(x)
-  //     }
-  //   }
-  //   var k = data.length - 1
-  //   return (
-  //     <View style={styles.row}>
-  //     <View style={styles.col}>
-  //         {/* <Image
-  //         source={{
-  //             uri: "https://img.icons8.com/fluency/512/home-page.png",
-  //         }}
-  //         style={{ width: 40, height: 40, marginRight:10 }}
-  //         /> */}
-  //         <View>
-  //             <Text style={styles.heading}>Rent</Text>
-  //             <Text style={styles.text}>{data[k].Date}</Text>
-  //         </View>
-  //     </View>
-  //     <View>
-  //         <Text style={styles.heading}>-100,000</Text>
-  //     </View>
-  // </View>
-  //   )
   }
-  if (props.data != null)
-    return (
-    // ViewThu(props)
+
+
+  if (props.data != null) 
+  return (
+
     <View style={styles.row}>
         <View style={styles.col}>
-            {/* <Image
+            
+            <Image
                 source={{
-                    uri: 
+                    uri: getIcon(props.data.Category)
                 }}
                 style={{ width: 40, height: 40, marginRight:10 }}
-            /> */}
+            />
+
             <View>
-                <Text style={styles.heading}>{props.data.Category}</Text>
+                <Text style={styles.text}>{props.data.Category}</Text>
                 <Text style={styles.text}>{props.data.Date}</Text>
             </View>
+
         </View>
         <View>
             <Text style={styles.heading}>{props.data.Money}</Text>
@@ -72,6 +52,7 @@ const styles = StyleSheet.create({
   heading:{
     fontFamily:"PoppinsBold",
     fontSize:15,
+    fontWeight: "bold"
   },
   text:{
     fontFamily:"Poppins"
