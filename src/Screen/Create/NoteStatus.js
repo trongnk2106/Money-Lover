@@ -6,7 +6,6 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import SelectRow from '../../components/SelectRow';
 import { openDatabase } from 'react-native-sqlite-storage';
 import CategoryRow from '../../test_flatlist';
-import OptionSwitch from "react-native-option-switch";
 import { Agenda, Calendar } from 'react-native-calendars';
 
 const windowWidth = Dimensions.get('window').width;
@@ -93,7 +92,7 @@ function AddNewStatus() {
     }
 
     return(
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 <View style={styles.inputs}>
                     
@@ -364,14 +363,17 @@ function AddNewStatus() {
                             color="black"
                         />
                     </TouchableOpacity>
-
+                    
+                    
                     <TextInput
                         style = {styles.inputText}
                         placeholder='Amount'
                         keyboardType="numeric"
                         onChangeText={(newMoney) => setmoney(newMoney)}
                     />
+                    
 
+                    
                     <TextInput
                         style = {styles.inputText}
                         placeholder='Add Note (Optional)'
@@ -380,6 +382,7 @@ function AddNewStatus() {
                         // onChangeText={newghichu => setghichu(newghichu)}
                         // defaultValue={ghichu}
                     />
+                    
 
                 </View>
 
@@ -396,7 +399,7 @@ function AddNewStatus() {
                 </View>
 
             </View>
-
+        </TouchableWithoutFeedback>
     )
 
 
