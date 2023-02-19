@@ -21,188 +21,82 @@ function Home ({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [ListData, setListData] = useState([])
   const [sum, setSum] = useState([])
-  // const get = () => {
-  //   db.transaction((tx) =>{
-  //     tx.executeSql(
-  //         "SELECT * FROM GIAODICH",
-  //         [],
-  //         (tx, results) =>{
-  //             var temp = []
-  //             // var sumx = []
-  //             var arr = ["01","02","03","04","05","06","07","08","09","10","11","12"]
-              
-  //             var summ = [{"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0},
-  //             {"THU": 0, "CHI": 0}]
-              
-  //             for (let i = 0; i < results.rows.length; i++){
-  //               var a = results.rows.item(i)
-  //               temp.push(a)
-  //               if ( a.Thu == 1){
-  //                 summ[0]['THU'] = summ[0]['THU'] + a.Money
-  //                 for (let k = 0; k <12; k++){
-  //                     if (a.Date.slice(5,7) == arr[k])
-  //                         summ[k+1]['THU'] = summ[k+1]['THU'] + a.Money
-  //                 }
-  //               }
-  //               else {
-  //                   summ[0]['CHI'] = summ[0]['CHI'] + a.Money
-  //                   for (let k = 0; k <12; k++){
-  //                       // console.log(a)
-  //                       if (a.Date.slice(5,7) == arr[k])
-  //                           summ[k+1]['CHI'] = summ[k+1]['CHI'] + a.Money
-  //                   }
-  //               }
-  //                 // sumx.push(summ)
-  //                 // if (results.rows.item(i).DATE.slice(5,7) == "02")
-  //                 //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
-  //                 // console.log(results.rows.item(i).DATE.slice(5,7))
-  //             }
-  //             // console.log(temp, 1)
+  const [InfoThisMonth, setInfoThisMonth] = useState(0)
+  const getData = async()=>{
+    let dd = new Date().getDate()
+    if (dd < 10)
+      dd = '0' + dd
+    var mm = new Date().getMonth() + 1
+    if (mm < 10)
+      mm = '0' + mm
+    var yyyy = new Date().getFullYear()
+    var date = yyyy + '-' + mm + '-' + dd
 
-  //             // setSumM(tp)
-  //             setSum(summ)
-  //             setListData(temp)
-  //             // console.log(temp)
-  //         }
-  //     )
-  // })
-  // }
-  // useEffect(()=>{
-  //   // modifine
-  //   get()
-  // }, [])
-  useEffect(() => {
-    var newID = 1
-    console.log(1)
-    db.transaction((tx) =>{
-        tx.executeSql(
-            "SELECT * FROM GIAODICH",
-            [],
-            (tx, results) =>{
-                newID = results.rows.length
-                setID(newID)
-                console.log(ID)
+    await db.transaction(async (tx) =>{
+      await tx.executeSql(
+        "SELECT * FROM GIAODICH ORDER BY GIAODICH.Date",
+        [],
+        (tx, results) =>{
+          var tm = []
+          var summ = [{"ID": "Now","Thu": 0, "Chi": 0}, {"ID": "This Month","Thu": 0, "Chi": 0}]
+          for (let i = 0; i < results.rows.length; i++){
+            var a = results.rows.item(i)
+            if (a.Date <= date){
+              tm.push(a)
+              if (a.Money < 0){
+                summ[0].Chi += a.Money
+              }
+              else summ[0].Thu += a.Money 
             }
-        )
-    })
-    // console.log(ID)
-  }, [ID + 1])
-  // console.log(1)
+            if (a.Date.slice(0,7) == date.slice(0,7)){
+              if (a.Money < 0){
+                summ[1].Chi += a.Money
+              }
+              else summ[1].Thu += a.Money
+            }
+          }
+          setSum(summ)
+          setListData(tm)
+ 
+        }
+      )
+    }) 
+  }
+  useEffect(()=>{
 
-  const getData = useEffect(() => {
-        // setdb(openDatabase({ name: 'data.db', readOnly: false,createFromLocation : 1}))
-        db.transaction((tx) =>{
-                tx.executeSql(
-                    "SELECT * FROM GIAODICH",
-                    [],
-                    (tx, results) =>{
-                        var temp = []
-                        // var sumx = []
-                        var arr = ["01","02","03","04","05","06","07","08","09","10","11","12"]
-                        
-                        var summ = [{"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0}]
-                        
-                        for (let i = 0; i < results.rows.length; i++){
-                          var a = results.rows.item(i)
-                          temp.push(a)
-                          if ( a.Thu == 1){
-                            summ[0]['THU'] = summ[0]['THU'] + a.Money
-                            for (let k = 0; k <12; k++){
-                                if (a.Date.slice(5,7) == arr[k])
-                                    summ[k+1]['THU'] = summ[k+1]['THU'] + a.Money
-                            }
-                          }
-                          else {
-                              summ[0]['CHI'] = summ[0]['CHI'] + a.Money
-                              for (let k = 0; k <12; k++){
-                                  // console.log(a)
-                                  if (a.Date.slice(5,7) == arr[k])
-                                      summ[k+1]['CHI'] = summ[k+1]['CHI'] + a.Money
-                              }
-                          }
-                            // sumx.push(summ)
-                            // if (results.rows.item(i).DATE.slice(5,7) == "02")
-                            //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
-                            // console.log(results.rows.item(i).DATE.slice(5,7))
-                        }
-                        // console.log(temp, 1)
+    getData()
+  }, [])
+ 
     
-                        // setSumM(tp)
-                        setSum(summ)
-                        setListData(temp)
-                        // console.log(temp)
-                    }
-                )
-            })
-      }, []);  
-    
-    let ShowSum = (item) => {
-      // console.log(item)
-
+  let ShowSum = (item) => {
       if (item != null){
-          return (item.CHI + item.THU)
+          return (item.Chi + item.Thu)
       }
       }; 
-      const getDataMonth = (summ) =>{
-        // console.log(summ)
-        var Month = new Date().getMonth() + 1
-        // console.log(summ[Month].THU)
-        // var lb = ["Thu", "CHI"]  
+      const getDataMonth = (mm) =>{
         x = {
-          labels: ["CHI", "THU"],
+          labels: ["CHI TIÊU", "THU NHẬP"],
           datasets: [
             {
               data: [0, 0]
             }
           ]
         };
-        if (summ[Month] != null){
-            // for (i = 1; i <=12; i++){
-            //     if (summ[i] != null)
-            //         x[i - 1] = summ[i].CHI + summ[i].THU
-            // console.log(summ[Month].CHI)
-            // console.log([-summ[Month].CHI, summ[Month].THU])
-            x.datasets[0].data = [-summ[Month].CHI, summ[Month].THU]
-            // console.log(x.datasets)
-            // console.log(1)
-            const b = summ[Month].CHI
+        if (mm != null){
+            x.datasets[0].data = [-mm.Chi, mm.Thu]
             }
         return x
         }
     
     const Show3GD = (ListData) =>{
-      // console.log(123)
-      // console.log(ListData)
+
       if (ListData != null){
-          // console.log(ListData)
           var data = []
           var k = 0
           for (let  i = ListData.length - 1; i >= 0; i-- ){
               var x = {"Date": ListData[i].Date, "Money": ListData[i].Money, "Category": ListData[i].Category}
               data.push(x)
               k = k + 1 
-              // console.log(dataThu)
               if ( k == 3)
                 break
           }
@@ -237,7 +131,7 @@ function Home ({ navigation }) {
         </View>
       </View>
       <View style={{flexDirection:'row', marginBottom:15,justifyContent:'space-between'}}>
-        <Text style={{ marginLeft:15, fontWeight:'bold'}}> Báo cáo chi tiêu</Text>
+        <Text style={{ marginLeft:15, fontWeight:'bold'}}> Báo cáo chi tiêu tháng này</Text>
         <Text style={{marginRight:15, fontWeight:'bold', color:'#2cf205'}}> Xem bao cao</Text>
 
         {/* <Button
@@ -247,7 +141,7 @@ function Home ({ navigation }) {
       </View>
       <View style={styles.body}>
                 <BarChart
-                    data= {getDataMonth(sum)}
+                    data= {getDataMonth(sum[1])}
                     width={Dimensions.get("window").width - 30}
                     fromZero = {1}
                     height={300}
