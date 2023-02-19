@@ -150,7 +150,28 @@ function  TransactionWallet({ navigation }) {
             }
             
         }
-        
+        const Show3GD = (ListData) =>{
+
+            if (ListData != null){
+                var data = []
+                var k = 0
+                for (let  i = ListData.length - 1; i >= 0; i-- ){
+                    var x = {"Date": ListData[i].Date, "Money": ListData[i].Money, "Category": ListData[i].Category}
+                    data.push(x)
+                    k = k + 1 
+                    if ( k == 3)
+                      break
+                }
+                return(
+                    <View>
+                    <DisplayRow data = {data[0]} />
+                    <DisplayRow data = {data[1]}/>
+                    <DisplayRow data = {data[2]}/>
+                </View>
+                )
+            }
+            
+        }
         const ShowCHI = (ListData) =>{
             // console.log(123)
             if (ListData != null){
@@ -277,7 +298,7 @@ function  TransactionWallet({ navigation }) {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                {ShowTHU(ListData)}
+                {Show3GD(ListData)}
                 {/* <View>
                     <DisplayRow />
                     <DisplayRow />

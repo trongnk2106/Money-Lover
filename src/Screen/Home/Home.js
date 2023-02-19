@@ -170,17 +170,17 @@ function Home ({ navigation }) {
       </View>
       <View  style = {styles.earlyfooter} >
         {Show3GD(ListData)}
-        <View style={{flexDirection:'row', marginTop:10, marginBottom:10, marginLeft:15, marginRight:15, justifyContent:'space-between'}}>
+        {/* <View style={{flexDirection:'row', marginTop:10, marginBottom:10, marginLeft:15, marginRight:15, justifyContent:'space-between'}}>
           <Text style={{ fontWeight:'bold', fontSize:15}}> Luong </Text>
           <Text style={{ fontWeight:'bold', fontSize:15}}> $50000</Text>
-        </View>
-        <View style={{flexDirection:'row', marginTop:10, marginBottom:10, marginLeft:15, marginRight:15, justifyContent:'space-between'}}>
+        </View> */}
+        {/* <View style={{flexDirection:'row', marginTop:10, marginBottom:10, marginLeft:15, marginRight:15, justifyContent:'space-between'}}>
         <Text style={{ fontWeight:'bold', fontSize:15}}> Thue Nha </Text>
           <Text style={{marginLeft:10, fontWeight:'bold', fontSize:15}}> $5000</Text>
-        </View>
-        <View style={{flexDirection:'row', marginTop:10, marginBottom:10, marginLeft:15, marginRight:15, justifyContent:'space-between'}}>
+        </View> */}
+        {/* <View style={{flexDirection:'row', marginTop:10, marginBottom:10, marginLeft:15, marginRight:15, justifyContent:'space-between'}}>
         <Text style={{ fontWeight:'bold', fontSize:15}}> Thu nhap khac </Text>
-          <Text style={{marginLeft:10, fontWeight:'bold', fontSize:15}}> $5000</Text>
+          <Text style={{marginLeft:10, fontWeight:'bold', fontSize:15}}> $5000</Text> */}
                   {/* <View style={[styles.homeDiv, styles.homeSpending]}>
                 <View style={styles.row}>
                     <Text style={styles.rowHeading}>Recent Spending</Text>
@@ -195,7 +195,7 @@ function Home ({ navigation }) {
                     <DisplayRow />
                 </View>
                 </View> */}          
-        </View>
+        {/* </View> */}
 
       </View>
       <View>
