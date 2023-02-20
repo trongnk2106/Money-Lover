@@ -29,94 +29,157 @@ function  TransactionWallet({ navigation }) {
     const [ID, setID] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [ListData, setListData] = useState([])
+    const [ListDataFuture, setListDataFuture] =useState([])
+    const [ListDataThisMonth, setListDataThisMonth] = useState([])
+    const [ListDataLastMonth, setListDataLastMonth] = useState([])
     const [sum, setSum] = useState([])
     const [actionTriggered, setActionTriggered] = useState('')
-    const getData = useEffect(() => {
+
+    const getDateBefore = (date)=>{
+        
+        var mm = date.slice(5,7) - 1
+        var yyyy = date.slice(0,4)
+        if(mm == 0){
+            mm = '12'
+            yyyy = yyyy - 1
+        }
+        else if(mm > 0 && mm <10){
+            mm = '0' + mm
+        }
+        var newDate = yyyy +'-' + mm
+        return newDate
+    }
+    const GetByMonth = async(mm) =>{
+        console.log(mm)
+        
+        var summ = 0
+        await db.transaction(async (tx) =>{
+            await tx.executeSql(
+              "SELECT * FROM GIAODICH ORDER BY GIAODICH.Date",
+              [],
+                async (tx, results) =>{
+                    // var sumx = []
+                    var arr = []
+                    var temp = []
+                    for (let i = 0; i < results.rows.length; i++){
+                      var a = await results.rows.item(i)
+                      if (a.Date.slice(0,7) == mm){
+                        temp.push(a)
+                      }
+                    }
+                    console.log(temp)
+                    return temp  
+                }
+            )
+            
+        }
+        )
+    }
+    const getSum = async()=>{
         // console.log(1)
         // setdb(openDatabase({ name: 'data.db', readOnly: false,createFromLocation : 1}))
-        db.transaction((tx) =>{
-                tx.executeSql(
-                    "SELECT * FROM GIAODICH",
-                    [],
-                    (tx, results) =>{
-                        var temp = []
+        
+        let dd = new Date().getDate()
+        if (dd < 10)
+        dd = '0' + dd
+        var mm = new Date().getMonth() + 1
+        if (mm < 10)
+        mm = '0' + mm
+        var yyyy = new Date().getFullYear()
+        var date = yyyy + '-' + mm + '-' + dd
+        var date1 = getDateBefore(date)
+        await db.transaction(async (tx) =>{
+            await tx.executeSql(
+              "SELECT * FROM GIAODICH ORDER BY GIAODICH.Date",
+              [],
+              (tx, results) =>{
+                        var list = []
+                        var listF = []
+                        var list0 = []
+                        var list1 = []
                         // var sumx = []
-                        var arr = ["01","02","03","04","05","06","07","08","09","10","11","12"]
-                        
-                        var summ = [{"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0},
-                        {"THU": 0, "CHI": 0}]
-                        
+                        var arr = []
+                        var summ = [{"ID": "Now","Thu": 0, "Chi": 0}, {"ID": "Future","Thu": 0, "Chi": 0}]  
                         for (let i = 0; i < results.rows.length; i++){
-                          var a = results.rows.item(i)
-                          temp.push(a)
-                          console.log(1)
-                          if ( a.Thu == 1){
-                            summ[0]['THU'] = summ[0]['THU'] + a.Money
-                            for (let k = 0; k <12; k++){
-                                if (a.Date.slice(5,7) == arr[k])
-                                    summ[k+1]['THU'] = summ[k+1]['THU'] + a.Money
-                            }
-                          }
-                          else {
-                              summ[0]['CHI'] = summ[0]['CHI'] + a.Money
-                              for (let k = 0; k <12; k++){
-                                  // console.log(a)
-                                  if (a.Date.slice(5,7) == arr[k])
-                                      summ[k+1]['CHI'] = summ[k+1]['CHI'] + a.Money
+                            var a = results.rows.item(i)
+                            
+                            if (a.Date.slice(0, 7) == date1.slice(0,7))
+                                list1.push(a)
+                            if (a.Date <= date){
+                              if (a.Date.slice(0, 7) == date.slice(0,7))
+                                list0.push(a)  
+                              list.push(a)
+                              if (a.Money < 0){
+                                summ[0].Chi += a.Money
                               }
-                          }
-                            // sumx.push(summ)
-                            // if (results.rows.item(i).DATE.slice(5,7) == "02")
-                            //     tp[0].SUMMONEY = tp[0].SUMMONEY + results.rows.item(i).Money
-                            // console.log(results.rows.item(i).DATE.slice(5,7))
+                              else summ[0].Thu += a.Money     
+                            }
+                            listF.push(a)
+                            if (a.Money < 0){
+                                summ[1].Chi += a.Money
+                              }
+                              else summ[1].Thu += a.Money
                         }
-                        // console.log(temp, 1)
-    
-                        // setSumM(tp)
                         
                         setSum(summ)
-                        // console.log(sum)
-                        setListData(temp)
-                        // console.log(temp)
+                        // console.log(summ)
+                        setListData(list)
+                        console.log(list0)
+                        // console.log(ListData)
+                        setListDataFuture(listF)
+                        // console.log(ListDataFuture)
+                        setListDataThisMonth(list0)
+                        setListDataLastMonth(list1)
                     }
                 )
             })
-      }, []);  
+      };
+    const TinhSum = (list) =>{
+        if (list != null){
+            var summ = 0
+            for( let i = 0; i < list.length; i++){
+                summ += list[i].Money
+            }
+            return summ
+        }
+    }
+    useEffect(()=>{
+        var mm = '2023-02'
+        getSum()
+        // getDataMonth()
+        // {asd(13)}
+        // var x = GetByMonth(mm)
+        // console.log(GetByMonth(mm))
+        // getDateBefore("2023-09-19")
+        // getData()
+      }, [])  
     let ShowSum = (item) => {
-        console.log(item)
-  
+        // console.log(item)
         if (item != null){
-            return (item.CHI + item.THU)
+            return (item.Chi + item.Thu)
         }
         };
-        const getDataMonth = (summ) =>{
-            var Month = new Date().getMonth()
-            var lb = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octoberr","November", "December"]  
-            var x = [0, 0, 0, 0, 0,0,0,0,0,0,0,0]
-            if (summ != null){
-                for (i = 1; i <=12; i++){
-                    if (summ[i] != null)
-                        x[i - 1] = summ[i].CHI + summ[i].THU
-                }
-                return {
-                    labels: [lb[Month - 1], lb[Month], lb[Month + 1]],
-                    datasets: [
-                      {
-                        data: [x[Month - 1], x[Month], x[Month + 1]]
-                      }
-                    ]
-                  };
-            }
+    const getDataMonth = (list1, list2) =>{
+        var mm = new Date().getMonth() + 1
+        if (mm < 10)
+            mm = '0' + mm
+        var yyyy = new Date().getFullYear()
+        var date2 = yyyy + '-' + mm
+        var date1 = getDateBefore(date2)
+        // console.log(k1)
+            // var Month = new Date().getMonth()
+            // var lb = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octoberr","November", "December"]  
+            // var x = [0, 0, 0, 0, 0,0,0,0,0,0,0,0]
+        if (list1 != null && list1 != null){
+            return {
+                labels: [date1, date2],
+                datasets: [
+                    {
+                    data: [TinhSum(list1), TinhSum(list2)]
+                    }
+                ]
+                };
+        }
         }
         const ShowTHU = (ListData) =>{
             // console.log(123)
@@ -131,6 +194,7 @@ function  TransactionWallet({ navigation }) {
                             "Date": ListData[i].Date, 
                             "Money": ListData[i].Money,
                             "Category": ListData[i].Category,
+                            "Image": ListData[i].Image
                         }
                         dataThu.push(x)
                         k = k + 1 
@@ -152,6 +216,7 @@ function  TransactionWallet({ navigation }) {
         const Show3GD = (ListData) =>{
 
             if (ListData != null){
+                // console.log(ListData)
                 var data = []
                 var k = 0
                 for (let  i = ListData.length - 1; i >= 0; i-- ){
@@ -225,13 +290,12 @@ function  TransactionWallet({ navigation }) {
             )
         }   
     return (
-        
         <View style={styles.container}>
             <ScrollView>
                 {/* summary container */}
                 <View style={[styles.homeDiv, styles.homeSummary]}>
-                <Text style={styles.summHeading}>SỐ DƯ</Text>
-                <Text style={{fontSize: 20,fontFamily: "Poppins",textAlign:"center"}}>{ShowSum(sum[0])} </Text>
+                <Text style={styles.summHeading}>Số dư</Text>
+                <Text style={{fontSize: 14,fontFamily: "Poppins",textAlign:"center"}}>{TinhSum(ListData)} VNĐ </Text>
                 {/* <View>
                    
                     <FlatList
@@ -239,6 +303,7 @@ function  TransactionWallet({ navigation }) {
                         horizontal={true}
                         renderItem={({item}) => <Item title={item.title} />}
                         keyExtractor={item => item.id}
+
                     />
                 </View> */}
                 </View>
@@ -248,7 +313,7 @@ function  TransactionWallet({ navigation }) {
                 {/* chart container */}
                 <View style={[styles.homeDiv]}>
                 <BarChart
-                    data={getDataMonth(sum)}
+                    data={getDataMonth(ListDataLastMonth,ListDataThisMonth)}
                     // {{
                     // labels: ["January", "February", "March", "April", "May", "June"],
                     // datasets: [
@@ -259,7 +324,10 @@ function  TransactionWallet({ navigation }) {
                     // }}
                     width={Dimensions.get("window").width - 30}
                     height={220}
-                    yAxisLabel={"Rs"}
+                    fromZero = {1}
+                    yAxisLabel={"VNĐ"}
+                    showBarTops = {1}
+                    showValuesOnTopOfBars = {1}
                     chartConfig={{
                     backgroundColor: "#1cc910",
                     backgroundGradientFrom: "#eff3ff",
@@ -390,11 +458,9 @@ homeDiv: {
     margin: 15,
 },
 summHeading: {
-    marginTop: 15,
     textAlign:"center",
     fontSize: 24,
     fontFamily: "PoppinsBold",
-    fontWeight: 'bold'
 },
 summText: {
     fontSize: 14,
