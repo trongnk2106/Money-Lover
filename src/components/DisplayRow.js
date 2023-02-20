@@ -30,7 +30,7 @@ export default function DisplayRow(props) {
 
         </View>
         <View>
-            <Text style={styles.heading}>{props.data.Money}</Text>
+            <Text style={styles.heading}>{props.data.Money} VNĐ</Text>
         </View>
     </View>
   );
