@@ -82,13 +82,6 @@ function ReminderApp() {
         date={selectedDate ? new Date(selectedDate) : undefined}
       />
 
-      {date.map((item, index) =>
-        <View style={styles.notificationBox} key={item.id}>
-          <Text style={styles.name}>{item.Time} : </Text>
-          <Text style={styles.name}>{item.Note} . </Text>
-        </View>
-      )}
-
     </SafeAreaView>
 
   );
