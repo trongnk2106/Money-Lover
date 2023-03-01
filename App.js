@@ -9,12 +9,13 @@ import TransactionWallet from './src/Screen/Home/TransactionWallet';
 
 import AddNewStatus from './src/Screen/Create/NoteStatus'
 import ReminderApp from './src/Screen/Home/Remid'; 
+import Category from'./src/Screen/Home/Category'
 
   const Tab = createBottomTabNavigator();
   
   export default function App() {
     return (
-        <NavigationContainer>
+        <NavigationContainer independent={true}>
           <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
@@ -44,6 +45,7 @@ import ReminderApp from './src/Screen/Home/Remid';
             <Tab.Screen name="Wallet" component={TransactionWallet} options={{headerShown:false, unmountOnBlur: true}} />
             <Tab.Screen name= "Add" component={AddNewStatus} options={{headerShown:false, unmountOnBlur: true}} />
             <Tab.Screen name= "Schedule" component={ReminderApp} options={{headerShown:false, unmountOnBlur: true}} />
+<Tab.Screen name= "Category" component={Category} options={{headerShown:false, unmountOnBlur: true}} />
           </Tab.Navigator>
         </NavigationContainer>
       );
